@@ -18,20 +18,9 @@
     --coach-border: #D4CAFF;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body {
-    background: #D6C8BF; min-height: 100vh;
-    display: flex; justify-content: center; align-items: flex-start;
-    font-family: 'DM Sans', sans-serif; padding: 20px 0 40px;
-  }
-  .phone {
-    width: 390px; min-height: 844px; background: var(--bg);
-    border-radius: 44px; overflow: hidden; position: relative;
-    box-shadow: 0 32px 80px rgba(0,0,0,0.28); display: flex; flex-direction: column;
-  }
-  .screen {
-    position: absolute; inset: 0; background: var(--bg); z-index: 20;
-    display: flex; flex-direction: column; transition: opacity 0.4s, transform 0.4s;
-  }
+  body { background: #D6C8BF; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; font-family: 'DM Sans', sans-serif; padding: 20px 0 40px; }
+  .phone { width: 390px; min-height: 844px; background: var(--bg); border-radius: 44px; overflow: hidden; position: relative; box-shadow: 0 32px 80px rgba(0,0,0,0.28); display: flex; flex-direction: column; }
+  .screen { position: absolute; inset: 0; background: var(--bg); z-index: 20; display: flex; flex-direction: column; transition: opacity 0.4s, transform 0.4s; }
   .screen.hidden { opacity: 0; pointer-events: none; transform: translateX(-20px); }
   .screen.slide-right.hidden { transform: translateX(20px); }
   #landingScreen { align-items: center; justify-content: center; padding: 48px 32px; }
@@ -139,7 +128,6 @@
   .coach-bubble-row.show { opacity: 1; transform: translateY(0); }
   .coach-bubble-row.user-row { justify-content: flex-end; }
   .coach-mini-av { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, #5151F7, #9B7BE8); display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
-  .coach-mini-av.ghost { visibility: hidden; }
   .coach-bubble { max-width: 78%; padding: 10px 14px; border-radius: 16px; font-size: 14px; line-height: 1.6; }
   .coach-melba-bubble { background: #fff; color: var(--text-dark); border-bottom-left-radius: 5px; box-shadow: 0 1px 8px rgba(81,81,247,0.10); }
   .coach-user-bubble { background: var(--primary); color: #fff; border-bottom-right-radius: 5px; }
@@ -271,7 +259,6 @@ const steps=[
 const delay=ms=>new Promise(r=>setTimeout(r,ms));
 function scrollDown(el){el=el||chatEl;setTimeout(()=>{el.scrollTop=el.scrollHeight;},40);}
 function updateProgress(n){for(let i=1;i<=5;i++)document.getElementById("p"+i).classList.toggle("done",i<=n);}
-
 function goToInstructions(){document.getElementById("landingScreen").classList.add("hidden");document.getElementById("instructionsScreen").classList.remove("hidden");}
 function closeCoach(){document.getElementById("coachScreen").classList.add("hidden");}
 function openCoach(){document.getElementById("coachScreen").classList.remove("hidden");if(coachHistory.length===0)initCoach();}
@@ -283,11 +270,31 @@ function addUser(text){const row=document.createElement("div");row.className="bu
 function showChips(list){chipsInner.innerHTML="";list.forEach(label=>{const c=document.createElement("button");c.className="chip";c.textContent=label;c.onclick=()=>{chipsInner.querySelectorAll(".chip").forEach(x=>x.classList.remove("selected"));c.classList.add("selected");textInput.value=label;sendBtn.classList.add("active");};chipsInner.appendChild(c);});chipsWrap.classList.add("open");}
 function hideChips(){chipsWrap.classList.remove("open");}
 
-async function startAsPartnerA(){const btn=document.getElementById("instStartBtn");btn.textContent="Creating session…";btn.disabled=true;try{const res=await fetch("/.netlify/functions/session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"create"})});const data=await res.json();coupleId=data.coupleId;myRole="A";}catch(e){coupleId=Math.random().toString(36).substring(2,10).toUpperCase();myRole="A";}document.getElementById("instructionsScreen").classList.add("hidden");document.getElementById("roleBadge").textContent="Partner A";document.getElementById("roleBadge").classList.add("show");runStep(0);}
-async function saveAnswers(){try{const res=await fetch("/.netlify/functions/session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"save",coupleId,role:myRole,answers:userAnswers})});const d=await res.json();return d.partnerReady||false;}catch(e){return false;}}
-async function pollForPartner(){try{const res=await fetch("/.netlify/functions/session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"get",coupleId})});return await res.json();}catch(e){return null;}}
-function getMagicLink(){return`${window.location.origin}${window.location.pathname}?session=${coupleId}&role=B`;}
+async function startAsPartnerA(){
+  const btn=document.getElementById("instStartBtn");
+  btn.textContent="Creating session…";btn.disabled=true;
+  try{const res=await fetch("/.netlify/functions/session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"create"})});const data=await res.json();coupleId=data.coupleId;myRole="A";}
+  catch(e){coupleId=Math.random().toString(36).substring(2,10).toUpperCase();myRole="A";}
+  document.getElementById("instructionsScreen").classList.add("hidden");
+  document.getElementById("roleBadge").textContent="Partner A";document.getElementById("roleBadge").classList.add("show");
+  runStep(0);
+}
 
+// ── KEY FIX: saveAnswers now returns the full session, not just partnerReady ──
+async function saveAnswers(){
+  try{
+    const res=await fetch("/.netlify/functions/session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"save",coupleId,role:myRole,answers:userAnswers})});
+    const d=await res.json();
+    return d; // return full response: { saved, partnerReady, partnerA, partnerB }
+  }catch(e){return {partnerReady:false};}
+}
+
+async function pollForPartner(){
+  try{const res=await fetch("/.netlify/functions/session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"get",coupleId})});return await res.json();}
+  catch(e){return null;}
+}
+
+function getMagicLink(){return`${window.location.origin}${window.location.pathname}?session=${coupleId}&role=B`;}
 function addInviteCard(){const row=document.createElement("div");row.className="bubble-row melba-row";row.innerHTML=`<div class="mini-av">🌸</div><div class="invite-card"><div class="invite-heading">Send your partner a magic link 💌</div><div class="invite-sub">Tap below to copy their personal link. When they open it, they'll be taken straight into their own session.</div><button class="invite-copy-btn" id="magicLinkBtn" onclick="copyMagicLink()">Copy link to share</button></div>`;chatEl.appendChild(row);requestAnimationFrame(()=>requestAnimationFrame(()=>row.classList.add("show")));scrollDown();}
 function copyMagicLink(){navigator.clipboard.writeText(getMagicLink()).then(()=>{document.getElementById("magicLinkBtn").textContent="Link copied! ✓";setTimeout(()=>{const b=document.getElementById("magicLinkBtn");if(b)b.textContent="Copy link to share";},2500);});}
 let waitingRow=null;
@@ -296,18 +303,97 @@ function removeWaitingCard(){if(waitingRow){waitingRow.remove();waitingRow=null;
 function addCoachEntryCard(){const row=document.createElement("div");row.className="bubble-row melba-row";row.innerHTML=`<div class="mini-av">🌸</div><div class="coach-entry-card"><div class="coach-entry-title">✨ Talk to your Melba Coach</div><div class="coach-entry-desc">Want to go deeper? Ask about what to try next, how to bring something up, or anything else on your mind. Science-backed, warm, completely private.</div><button class="coach-entry-btn" onclick="openCoach()">Open Melba Coach →</button></div>`;chatEl.appendChild(row);requestAnimationFrame(()=>requestAnimationFrame(()=>row.classList.add("show")));scrollDown();}
 function addResultCard(match,isJoint){lastMatchData=match;const row=document.createElement("div");row.className="bubble-row melba-row";const tags=(match.practice_tags||[]).map(t=>`<span class="rc-chip">${t}</span>`).join("");row.innerHTML=`<div class="mini-av">🌸</div><div class="result-card"><div class="rc-hero">${isJoint?'<div class="rc-joint-badge">✨ Joint pick</div>':''}<div class="rc-tag">${isJoint?"Your experience together":"Your first experience"}</div><div class="rc-sparkle">✨</div></div><div class="rc-body"><div class="rc-title">${match.episode_name||"Your Perfect Experience"}</div><div class="rc-desc">${match.reason||"Tonight is the perfect moment to explore something beautiful together."}</div><div class="rc-chips">${match.spice?`<span class="rc-chip">${match.spice}</span>`:""}${tags}</div><button class="rc-btn">Start this experience →</button></div></div>`;chatEl.appendChild(row);requestAnimationFrame(()=>requestAnimationFrame(()=>row.classList.add("show")));scrollDown();}
 
-async function afterQuiz(){locked=true;const partnerReady=await saveAnswers();
-if(myRole==="A"){await delay(400);showTyping();await delay(700);removeTyping();addMelba("Now let's get your partner in. Share the magic link below — when they finish their questions, your joint recommendation unlocks 🔓");await delay(600);addInviteCard();await delay(800);showTyping();await delay(700);removeTyping();addMelba("I'll let you know as soon as they're ready 💫",true);await delay(400);addWaitingCard();pollTimer=setInterval(async()=>{const session=await pollForPartner();if(session&&session.partnerReady){clearInterval(pollTimer);removeWaitingCard();await delay(300);showTyping();await delay(800);removeTyping();addMelba("Your partner just finished! 🎉 Finding your joint recommendation now…",true);await delay(500);fetchJointMatch(session.partnerA,session.partnerB);}},4000);}
-else{if(partnerReady){showTyping();await delay(800);removeTyping();addMelba("Both of you are in! Finding your joint recommendation now… 🎉",true);await delay(500);const s=await pollForPartner();fetchJointMatch(s.partnerA,s.partnerB);}else{showTyping();await delay(800);removeTyping();addMelba("You're done! Now waiting for your partner to finish… I'll find your joint recommendation the moment they do 💫",true);await delay(400);addWaitingCard();pollTimer=setInterval(async()=>{const s=await pollForPartner();if(s&&s.partnerReady){clearInterval(pollTimer);removeWaitingCard();showTyping();await delay(800);removeTyping();addMelba("Both done! Here's your joint recommendation 🌸",true);await delay(500);fetchJointMatch(s.partnerA,s.partnerB);}},4000);}}locked=false;}
+async function afterQuiz(){
+  locked=true;
+  // saveAnswers now returns the full session object
+  const saveResult = await saveAnswers();
 
-async function fetchJointMatch(answersA,answersB){showTyping();try{const res=await fetch("/.netlify/functions/match",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({answers:{partnerA:answersA,partnerB:answersB},episodes:EPISODES})});const match=await res.json();removeTyping();addResultCard(match,true);await delay(800);showTyping();await delay(700);removeTyping();addMelba("This one was chosen for both of you — together. Enjoy tonight 🌸",true);await delay(1000);addCoachEntryCard();}catch(err){removeTyping();addMelba("Something went wrong finding your match. Please try again 🙏",true);}}
+  if(myRole==="A"){
+    await delay(400);showTyping();await delay(700);removeTyping();
+    addMelba("Now let's get your partner in. Share the magic link below — when they finish their questions, your joint recommendation unlocks 🔓");
+    await delay(600);addInviteCard();
+    await delay(800);showTyping();await delay(700);removeTyping();
+    addMelba("I'll let you know as soon as they're ready 💫",true);
+    await delay(400);addWaitingCard();
+    pollTimer=setInterval(async()=>{
+      const session=await pollForPartner();
+      if(session&&session.partnerReady){
+        clearInterval(pollTimer);removeWaitingCard();
+        await delay(300);showTyping();await delay(800);removeTyping();
+        addMelba("Your partner just finished! 🎉 Finding your joint recommendation now…",true);
+        await delay(500);fetchJointMatch(session.partnerA,session.partnerB);
+      }
+    },4000);
+  } else {
+    // Partner B: saveResult already contains partnerA answers since save returns the updated session
+    if(saveResult.partnerReady && saveResult.partnerA && saveResult.partnerB){
+      // Both ready — use answers directly from save response, no second fetch needed
+      showTyping();await delay(800);removeTyping();
+      addMelba("Both of you are in! Finding your joint recommendation now… 🎉",true);
+      await delay(500);
+      fetchJointMatch(saveResult.partnerA, saveResult.partnerB);
+    } else {
+      // Partner A hasn't finished yet — poll
+      showTyping();await delay(800);removeTyping();
+      addMelba("You're done! Now waiting for your partner to finish… I'll find your joint recommendation the moment they do 💫",true);
+      await delay(400);addWaitingCard();
+      pollTimer=setInterval(async()=>{
+        const s=await pollForPartner();
+        if(s&&s.partnerReady){
+          clearInterval(pollTimer);removeWaitingCard();
+          showTyping();await delay(800);removeTyping();
+          addMelba("Both done! Here's your joint recommendation 🌸",true);
+          await delay(500);fetchJointMatch(s.partnerA,s.partnerB);
+        }
+      },4000);
+    }
+  }
+  locked=false;
+}
 
-async function runStep(index,isB){locked=true;if(index>=steps.length){afterQuiz();return;}const step=steps[index];updateProgress(step.progress);hideChips();let msgs=step.messages;if(index===0&&isB)msgs=[{text:"Hey, I'm your Melba guide 🌸",gap:400},{text:"Your partner has already answered — now it's your turn. Your answers are private; they won't see your exact words.",gap:1100},{text:"What brings you here today?",gap:900}];for(let i=0;i<msgs.length;i++){await delay(msgs[i].gap||600);showTyping();await delay(750);removeTyping();addMelba(msgs[i].text,i===msgs.length-1);await delay(80);}await delay(350);if(step.chips)showChips(step.chips);locked=false;}
-async function handleAnswer(text){if(locked)return;locked=true;hideChips();textInput.value="";sendBtn.classList.remove("active");addUser(text);if(currentStep<answerKeys.length)userAnswers[answerKeys[currentStep]]=text;await delay(300);const next=steps[currentStep+1];if(next&&next.ack&&next.ack.length){const ack=next.ack[Math.floor(Math.random()*next.ack.length)];showTyping();await delay(600);removeTyping();addMelba(ack,false);await delay(200);}currentStep++;locked=false;runStep(currentStep,myRole==="B");}
+async function fetchJointMatch(answersA,answersB){
+  showTyping();
+  try{
+    const res=await fetch("/.netlify/functions/match",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({answers:{partnerA:answersA,partnerB:answersB},episodes:EPISODES})});
+    const match=await res.json();
+    removeTyping();
+    addResultCard(match,true);
+    await delay(800);showTyping();await delay(700);removeTyping();
+    addMelba("This one was chosen for both of you — together. Enjoy tonight 🌸",true);
+    await delay(1000);addCoachEntryCard();
+  }catch(err){
+    removeTyping();
+    addMelba("Something went wrong finding your match. Please try again 🙏",true);
+  }
+}
+
+async function runStep(index,isB){
+  locked=true;
+  if(index>=steps.length){afterQuiz();return;}
+  const step=steps[index];updateProgress(step.progress);hideChips();
+  let msgs=step.messages;
+  if(index===0&&isB)msgs=[{text:"Hey, I'm your Melba guide 🌸",gap:400},{text:"Your partner has already answered — now it's your turn. Your answers are private; they won't see your exact words.",gap:1100},{text:"What brings you here today?",gap:900}];
+  for(let i=0;i<msgs.length;i++){await delay(msgs[i].gap||600);showTyping();await delay(750);removeTyping();addMelba(msgs[i].text,i===msgs.length-1);await delay(80);}
+  await delay(350);if(step.chips)showChips(step.chips);
+  locked=false;
+}
+
+async function handleAnswer(text){
+  if(locked)return;locked=true;
+  hideChips();textInput.value="";sendBtn.classList.remove("active");
+  addUser(text);
+  if(currentStep<answerKeys.length)userAnswers[answerKeys[currentStep]]=text;
+  await delay(300);
+  const next=steps[currentStep+1];
+  if(next&&next.ack&&next.ack.length){const ack=next.ack[Math.floor(Math.random()*next.ack.length)];showTyping();await delay(600);removeTyping();addMelba(ack,false);await delay(200);}
+  currentStep++;locked=false;runStep(currentStep,myRole==="B");
+}
+
 function onType(){sendBtn.classList.toggle("active",textInput.value.trim().length>0);if(textInput.value.trim())chipsInner.querySelectorAll(".chip").forEach(c=>c.classList.remove("selected"));}
 function onKey(e){if(e.key==="Enter"&&textInput.value.trim())sendFree();}
 function sendFree(){const v=textInput.value.trim();if(!v||locked)return;handleAnswer(v);}
 
+// ── COACH ────────────────────────────────────────────────────────────────────
 const COACH_PROMPTS=["What should we try next?","How do we talk about what we want?","We want to try something new but don't know where to start","Is it normal to want this?","How do we keep things exciting?"];
 function showCoachTyping(){removeCoachTyping();const row=document.createElement("div");row.className="coach-typing-row";row.innerHTML=`<div class="coach-mini-av">✨</div><div class="coach-typing-bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;coachChatEl.appendChild(row);requestAnimationFrame(()=>requestAnimationFrame(()=>row.classList.add("show")));coachTyping=row;scrollDown(coachChatEl);}
 function removeCoachTyping(){if(coachTyping){coachTyping.remove();coachTyping=null;}}
@@ -315,11 +401,40 @@ function addCoachMelba(text){const row=document.createElement("div");row.classNa
 function addCoachUser(text){const row=document.createElement("div");row.className="coach-bubble-row user-row";row.innerHTML=`<div class="coach-bubble coach-user-bubble">${text}</div>`;coachChatEl.appendChild(row);requestAnimationFrame(()=>requestAnimationFrame(()=>row.classList.add("show")));scrollDown(coachChatEl);}
 function showCoachPrompts(){coachPromptsEl.innerHTML="";COACH_PROMPTS.slice(0,3).forEach(p=>{const c=document.createElement("button");c.className="coach-prompt-chip";c.textContent=p;c.onclick=()=>{coachInput.value=p;coachSendBtn.classList.add("active");coachInput.focus();};coachPromptsEl.appendChild(c);});}
 async function initCoach(){showCoachTyping();await delay(1000);removeCoachTyping();const opening="Hey 🌸 — you two just got your recommendation. I'm here if you want to go a bit deeper: ask about what to try next, how to bring something up, or anything else on your mind.";addCoachMelba(opening);coachHistory.push({role:"assistant",content:opening});showCoachPrompts();}
-async function sendCoachMessage(){const text=coachInput.value.trim();if(!text||coachLocked)return;coachLocked=true;coachPromptsEl.innerHTML="";coachInput.value="";coachSendBtn.classList.remove("active");addCoachUser(text);coachHistory.push({role:"user",content:text});showCoachTyping();try{const userContext={isDual:!!(userAnswers&&lastMatchData),partnerAAnswers:myRole==="A"?userAnswers:null};const res=await fetch("/.netlify/functions/coach",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:coachHistory,userContext})});const data=await res.json();removeCoachTyping();addCoachMelba(data.reply||"I'm here — keep going.");coachHistory.push({role:"assistant",content:data.reply});}catch(err){removeCoachTyping();addCoachMelba("Something went wrong — try again? I'm still here.");}coachLocked=false;}
+async function sendCoachMessage(){
+  const text=coachInput.value.trim();if(!text||coachLocked)return;
+  coachLocked=true;coachPromptsEl.innerHTML="";coachInput.value="";coachSendBtn.classList.remove("active");
+  addCoachUser(text);coachHistory.push({role:"user",content:text});showCoachTyping();
+  try{
+    const userContext={isDual:!!(userAnswers&&lastMatchData),partnerAAnswers:myRole==="A"?userAnswers:null};
+    const res=await fetch("/.netlify/functions/coach",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:coachHistory,userContext})});
+    const data=await res.json();removeCoachTyping();
+    addCoachMelba(data.reply||"I'm here — keep going.");
+    coachHistory.push({role:"assistant",content:data.reply});
+  }catch(err){removeCoachTyping();addCoachMelba("Something went wrong — try again? I'm still here.");}
+  coachLocked=false;
+}
 function onCoachType(){coachSendBtn.classList.toggle("active",coachInput.value.trim().length>0);}
 function onCoachKey(e){if(e.key==="Enter"&&coachInput.value.trim())sendCoachMessage();}
 
-window.addEventListener("DOMContentLoaded",()=>{if(window._magicSession){coupleId=window._magicSession;myRole="B";document.getElementById("landingScreen").classList.add("hidden");document.getElementById("roleBadge").textContent="Partner B";document.getElementById("roleBadge").classList.add("show");document.getElementById("headerStatus").textContent="Linked to your session";fetch("/.netlify/functions/session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"get",coupleId})}).then(r=>r.json()).then(data=>{if(data.partnerB){const ls=document.getElementById("landingScreen");ls.classList.remove("hidden");ls.innerHTML=`<div style="font-size:48px;margin-bottom:20px">🌸</div><div style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:800;color:#1A1040;text-align:center;margin-bottom:12px">This session is already complete</div><div style="font-size:14px;color:#6B6B8A;text-align:center;line-height:1.6;padding:0 32px">It looks like both partners have already answered. Ask your partner to start a new one!</div>`;}else{runStep(0,true);}}).catch(()=>runStep(0,true));}});
+// ── MAGIC LINK AUTO-START ─────────────────────────────────────────────────────
+window.addEventListener("DOMContentLoaded",()=>{
+  if(window._magicSession){
+    coupleId=window._magicSession;myRole="B";
+    document.getElementById("landingScreen").classList.add("hidden");
+    document.getElementById("roleBadge").textContent="Partner B";document.getElementById("roleBadge").classList.add("show");
+    document.getElementById("headerStatus").textContent="Linked to your session";
+    fetch("/.netlify/functions/session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"get",coupleId})})
+      .then(r=>r.json())
+      .then(data=>{
+        if(data.partnerB){
+          const ls=document.getElementById("landingScreen");ls.classList.remove("hidden");
+          ls.innerHTML=`<div style="font-size:48px;margin-bottom:20px">🌸</div><div style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:800;color:#1A1040;text-align:center;margin-bottom:12px">This session is already complete</div><div style="font-size:14px;color:#6B6B8A;text-align:center;line-height:1.6;padding:0 32px">It looks like both partners have already answered. Ask your partner to start a new one!</div>`;
+        }else{runStep(0,true);}
+      })
+      .catch(()=>runStep(0,true));
+  }
+});
 </script>
 </body>
 </html>

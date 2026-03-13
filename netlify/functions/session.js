@@ -1,7 +1,3 @@
-/**
- * Melba V2 — Session Function (Upstash Redis)
- */
-
 const REDIS_URL   = process.env.UPSTASH_REDIS_REST_URL;
 const REDIS_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
 const TTL         = 3600;
@@ -65,10 +61,16 @@ exports.handler = async (event) => {
       session.updatedAt = Date.now();
       await redisSet(coupleId, session);
       const partnerReady = !!(session.partnerA && session.partnerB);
+      // KEY FIX: return full session data so Partner B can use answers directly
       return {
         statusCode: 200,
         headers: { ...CORS, "Content-Type": "application/json" },
-        body: JSON.stringify({ saved: true, partnerReady }),
+        body: JSON.stringify({
+          saved: true,
+          partnerReady,
+          partnerA: session.partnerA,
+          partnerB: session.partnerB,
+        }),
       };
     }
 
