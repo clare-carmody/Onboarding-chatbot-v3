@@ -19,13 +19,9 @@ async function redisGet(key) {
 }
 
 async function redisSet(key, value) {
-  const res = await fetch(`${REDIS_URL}/`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${REDIS_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(["SET", key, JSON.stringify(value), "EX", String(TTL)]),
+  const encoded = encodeURIComponent(JSON.stringify(value));
+  const res = await fetch(`${REDIS_URL}/set/${encodeURIComponent(key)}/${encoded}/ex/${TTL}`, {
+    headers: { Authorization: `Bearer ${REDIS_TOKEN}` },
   });
   const json = await res.json();
   if (json.error) throw new Error(`Redis SET failed: ${json.error}`);
