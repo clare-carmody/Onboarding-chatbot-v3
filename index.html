@@ -325,13 +325,18 @@ async function afterQuiz(){
       }
     },4000);
   } else {
-    // Partner B: saveResult already contains partnerA answers since save returns the updated session
-    if(saveResult.partnerReady && saveResult.partnerA && saveResult.partnerB){
-      // Both ready — use answers directly from save response, no second fetch needed
+    // Partner B: use save response data if present; fall back to a GET if not
+    let aData=saveResult.partnerA, bData=saveResult.partnerB;
+    if(!aData || !bData){
+      // Save response missing partner data — verify with a fresh GET
+      const fresh=await pollForPartner();
+      if(fresh){aData=fresh.partnerA;bData=fresh.partnerB;}
+    }
+    if(aData && bData){
       showTyping();await delay(800);removeTyping();
       addMelba("Both of you are in! Finding your joint recommendation now… 🎉",true);
       await delay(500);
-      fetchJointMatch(saveResult.partnerA, saveResult.partnerB);
+      fetchJointMatch(aData, bData);
     } else {
       // Partner A hasn't finished yet — poll
       showTyping();await delay(800);removeTyping();

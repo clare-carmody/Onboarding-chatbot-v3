@@ -13,15 +13,22 @@ async function redisGet(key) {
     headers: { Authorization: `Bearer ${REDIS_TOKEN}` },
   });
   const json = await res.json();
+  if (json.error) throw new Error(`Redis GET failed: ${json.error}`);
   if (!json.result) return null;
   return JSON.parse(json.result);
 }
 
 async function redisSet(key, value) {
-  const encoded = encodeURIComponent(JSON.stringify(value));
-  await fetch(`${REDIS_URL}/set/${encodeURIComponent(key)}/${encoded}/ex/${TTL}`, {
-    headers: { Authorization: `Bearer ${REDIS_TOKEN}` },
+  const res = await fetch(`${REDIS_URL}/`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${REDIS_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(["SET", key, JSON.stringify(value), "EX", String(TTL)]),
   });
+  const json = await res.json();
+  if (json.error) throw new Error(`Redis SET failed: ${json.error}`);
 }
 
 function makeId(len = 8) {
