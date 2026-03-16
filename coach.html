@@ -163,7 +163,7 @@ async function initCoach() {
   showTyping();
   await delay(900);
   removeTyping();
-  const opening = "Hey 🌸 — I'm Melba, your personal intimacy guide. I'm here to help you explore, reflect, and build a more connected intimate life. What's on your mind today?";
+  const opening = "Hey 🌸 I'm Melba, your personal intimacy guide. What's on your mind today?";
   addMelba(opening);
   coachHistory.push({ role: "assistant", content: opening });
   showPrompts(OPENING_PROMPTS);
@@ -195,12 +195,13 @@ async function sendCoachMessage() {
     if (data.reply) {
       addMelba(data.reply);
       coachHistory.push({ role: "assistant", content: data.reply });
+      if (data.chips && data.chips.length) showPrompts(data.chips);
     } else {
-      addMelba("Something went wrong — please try again 🙏");
+      addMelba("Something went wrong, please try again 🙏");
     }
   } catch (err) {
     removeTyping();
-    addMelba("Something went wrong — please try again 🙏");
+    addMelba("Something went wrong, please try again 🙏");
   }
 
   coachLocked = false;

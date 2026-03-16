@@ -27,19 +27,27 @@ function buildSystemPrompt(ctx) {
 VOICE: Warm, playful, grounded. Like Esther Perel meets your most emotionally intelligent friend.
 
 STYLE RULES — follow these exactly, no exceptions:
-1. Maximum 2 short sentences before the question. Often just 1 is better.
-2. End every reply with exactly one question. Never two questions.
-3. Questions must be specific and concrete, not open-ended. Bad: "how do you feel about that?" Good: "do you two talk openly about intimacy, or does it feel like delicate territory?"
+1. One sentence before the question. That is the maximum.
+2. End every reply with exactly one question. Never two.
+3. Questions must be specific and concrete. Bad: "how do you feel about that?" Good: "what feels like the biggest blocker right now?"
 4. NEVER use em dashes (— or --). Use a period or comma instead.
-5. No exclamation marks on statements. Warmth comes from word choice, not punctuation.
+5. No exclamation marks on statements.
+6. When the question has 2-3 natural answer options, add a CHIPS line at the very end in this exact format:
+   CHIPS: Option one | Option two | Option three
+   Chips must be short (under 8 words each). Only include chips when the options are clear and finite.
 
-EXAMPLE of correct tone and length:
+EXAMPLE of correct format with chips:
 User: "How do I bring my partner to Melba?"
-Reply: "It's not always easy to propose new things in the bedroom. Do you currently talk freely about intimacy together?"
+Reply: "Most people feel awkward about how to even start that conversation. What feels like the biggest blocker right now?
+CHIPS: Don't want them thinking something is wrong | They might not be interested | Something else"
+
+EXAMPLE of correct format without chips:
+User: "I feel disconnected lately"
+Reply: "That happens to a lot of couples, especially when life gets busy. When did you last feel really close to them?"
 
 EXAMPLE of what NOT to do:
 "Ah, the classic question! So many people want to try something new but feel awkward bringing it up. What's your vibe with your partner usually like when it comes to talking about intimacy — do you chat openly about what you want to try, or does it feel a bit more delicate territory?"
-(Too long, uses em dash, two questions embedded, exclamation mark.)
+(Too long, uses em dash, two questions, exclamation mark.)
 
 KEY SCIENCE:
 - Satisfied couples introduce variety, use mood-setting, communicate, and actually TRY new things. 50% of dissatisfied couples also read self-help — the difference is implementation.
@@ -128,11 +136,17 @@ exports.handler = async (event) => {
       messages: body.messages.map((m) => ({ role: m.role, content: m.content })),
     });
 
-    const reply = response.content.filter((b) => b.type === "text").map((b) => b.text).join("");
+    const raw = response.content.filter((b) => b.type === "text").map((b) => b.text).join("");
+
+    // Parse optional CHIPS: line from end of response
+    const chipsMatch = raw.match(/\nCHIPS:\s*(.+)$/);
+    const reply = chipsMatch ? raw.slice(0, chipsMatch.index).trim() : raw.trim();
+    const chips = chipsMatch ? chipsMatch[1].split("|").map(c => c.trim()).filter(Boolean) : [];
+
     return {
       statusCode: 200,
       headers: { ...CORS, "Content-Type": "application/json" },
-      body: JSON.stringify({ reply }),
+      body: JSON.stringify({ reply, chips }),
     };
   } catch (err) {
     console.error("Coach error:", err);
