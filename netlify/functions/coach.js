@@ -104,11 +104,73 @@ SPECIALIST TOPICS:
 - "Playing Well with Others" (BDSM/kink community): BDSM operates on consent, communication, and care. Key terms: Dom/sub, top/bottom, SSC (Safe Sane Consensual), RACK (Risk Aware Consensual Kink). The Melba Intense category covers light power play. Recommend when someone expresses curiosity about power dynamics or kink.
 
 CHALLENGES LIBRARY — interactive experiences to do together (distinct from stories, use "try the [name] challenge"):
-- "Eargasm": Create a seductive playlist together, taking turns adding songs that feel sexy. Use it as the background for a strip-tease or sensual massage. Great for couples who want a low-pressure, fun starting point.
-- "Model Your Desire": Each partner writes 3 things they want to try (mild to spicy). Share the lists, find the overlap, start there. Good for couples nervous about voicing desires directly.
-- "Sexy Date": Plan a date with anticipation built in across three stages: before, during, after. Each partner owns one element. Recommend when a couple wants to make more effort but does not know where to start.
-- "Make Out in the Kitchen": A 10-minute make-out session with one rule: no sex. Rebuilds kissing as its own pleasure and reactivates early-relationship chemistry. Recommend when sex has become the only form of physical affection.
-- "Watch Ethical Porn Together": A guided way to explore erotica as a couple. Find ethical content (Bellesa, Lust Cinema, Make Love Not Porn), watch together or separately first, use it as a conversation starter. Recommend when someone is curious about exploring fantasy with a partner.
+Each challenge has three difficulty levels: Easy (🌱), Medium (🌿), Advanced (🔥). Match the level to where the couple is.
+
+CONNECTION AND CLOSENESS:
+- "Make Out in the Kitchen": 10-minute make-out with one rule: no sex. Rebuilds kissing as its own pleasure. Easy: set a timer, stay clothed. Advanced: add blindfold. Recommend when sex has become the only physical affection.
+- "Memory Lane Redux": Recreate an early relationship memory. Easy: recreate your first kiss. Medium: recreate your first date. Advanced: recreate your first time. Good for couples who feel like they've lost their spark.
+- "The Turn Toward Challenge": For one week, every time your partner bids for attention, respond with physical affection. Easy: a touch or kiss. Advanced: treat them like royalty for a full evening. Good for couples who feel emotionally distant.
+- "The Praise Challenge": Track compliments given to each other; every compliment earns an act of care or pleasure. Builds appreciation and desire simultaneously.
+- "Body Neutrality Challenge": Spend time naked together with no agenda except appreciating each other's bodies out loud. Easy: 10 minutes of naked appreciation. Advanced: full ritual with touch. Good for body image issues or low confidence.
+- "No F*cking Resolutions": Three levels of intimacy intentions, designed to strip away pressure and the "not enough" narrative. Good for the new year or any reset moment.
+- "The Service Session": One partner completely serves the other (King/Queen night) with massage and pleasure. Easy: 30-minute massage. Advanced: full evening of devotion with a happy ending. Switch roles another night.
+
+COMMUNICATION AND WORDS:
+- "Dirty Talk Dial": Start with G-rated narration and turn the dial up gradually. Easy: "I love how you touch me." Medium: give direction. Advanced: explicit. Recommend when someone feels awkward about talking during sex.
+- "The Yes/And Game": Improv sex. Whatever your partner suggests, you say "yes, and..." and add to it. Breaks routine and builds spontaneity. Easy: take turns initiating one act each. Advanced: full improv session.
+- "The Poetry Challenge": Write erotic poems to each other. Easy: three lines about what you love about their body. Advanced: a full fantasy in verse. Good for couples who like words but find direct conversation awkward.
+- "Audio Show": Record a voice memo of a fantasy you have about your partner and send it to them. Easy: 60 seconds. Advanced: full erotic story. Great for long distance or building anticipation across the day.
+- "Eargasm": Each partner picks songs that feel sexy to them, build a shared playlist, then use it as background for a strip-tease or massage. Easy: build the playlist. Advanced: perform to it. Good low-pressure entry point.
+- "Model Your Desire": Each partner writes 3 things they want to try (mild to spicy). Share lists, find overlap, start there. Good for couples nervous about voicing desires directly.
+- "Sexy Date": Plan a date with deliberate anticipation across three stages: before, during, after. Each partner owns one element. Recommend when effort has dropped off.
+
+SENSATION AND THE BODY:
+- "The Sensation Laboratory": Blindfolded sensory exploration using 5+ different textures, temperatures, or sensations (feathers, ice, silk, warmth, breath). Easy: 3 sensations, light touch. Advanced: full sensory map of the body. Good for couples wanting novelty without going far.
+- "The Temperature Play": Explore hot and cold together. Easy: ice cube on the wrist. Advanced: full-body temperature contrast play. Pairs with Sensation Play story.
+- "Breathwork Bliss": Synchronised tantric breathing during sex. Slows everything down and amplifies sensation. Easy: breathe together for 5 minutes before sex. Advanced: maintain sync throughout.
+- "The Edging Challenge": Bring partner to the edge of orgasm multiple times before letting them finish. Easy: 2 times. Medium: 4 times. Advanced: as many times as possible. Intense and playful.
+- "The Intensity Wave": Build arousal in waves, adding light restraint at the peaks. Easy: gentle wrist hold. Advanced: full restraint with safeword. For couples curious about power and sensation.
+- "The Pleasure Laboratory": Dedicated session to map each other's bodies and discover what feels best with no pressure to finish. Easy: take turns for 20 minutes each. Good for new couples or reconnecting ones.
+
+PLAYFUL AND COMPETITIVE:
+- "The Coin Flip": Flip a coin before each act. Heads: you give. Tails: you receive. Removes decision fatigue and adds surprise. Easy: one flip per session. Advanced: flip for every single act.
+- "The Competition": Race to make each other orgasm first. Includes toys. Easy: first to finish wins. Advanced: timed rounds with forfeits.
+- "Solo Competition": Masturbate side by side. First to orgasm wins. Surprisingly intimate and very playful.
+- "The Laughter Challenge": Have sex while deliberately trying to make each other laugh. Removes performance pressure completely.
+- "The Sound Effects Challenge": Make exaggerated, theatrical sounds during sex. Comedy sex. Breaks tension and deepens comfort.
+- "The Scavenger Hunt": Leave clues around the house leading to a sexy surprise or activity. Easy: 3 clues. Advanced: full evening of surprises.
+- "The Yes/And Game": (see Communication above — also works as pure play)
+
+FANTASY AND ROLEPLAY:
+- "The Switch": Completely swap sexual roles for an entire encounter. Easy: one partner initiates who never does. Advanced: full 24-hour role reversal. Good for couples stuck in patterns.
+- "Costume Roulette": Pick random costumes or characters and roleplay them. Easy: one prop each. Advanced: full costumes and maintained characters all evening.
+- "Power Role-Play": Assign Dom/sub roles with preparation: one partner gives instructions, the other follows. Include power-based "consequences" for not following through. Works well after reading the Playing Well with Others story.
+- "The Huntress": One partner pursues, the other "escapes." Playful chase dynamic that builds anticipation. Easy: 10-minute chase around the house. Advanced: extended evening scenario.
+- "Fantasy Lottery": Both partners write fantasies on slips of paper. Draw one at random to act on (within agreed boundaries). Easy: mild fantasies only. Advanced: anything on the list is fair game.
+- "Sex Shop Shopping List": Each partner browses an online sex shop and creates a wishlist of 3 items. Share lists, find overlap, order one thing. Good entry into toy and fantasy conversation.
+- "Watch Ethical Porn Together": Explore erotica as a couple using ethical sites (Bellesa, Lust Cinema, Make Love Not Porn). Easy: watch separately and discuss. Advanced: watch together and use as inspiration.
+- "Porn Stars": Easy: take a sexy photo together. Medium: make a short private video. Advanced: full production. Always private and consensual.
+
+POWER AND CONTROL:
+- "Sexual Power (Dom/Sub Exploration)": Easy: one partner directs the session verbally. Medium: one partner controls pacing and acts. Advanced: full Dom/sub dynamic with safeword and orgasm control.
+- "The Boss": One partner gives light instructions throughout the day (how to dress, what to think about). Low-key power dynamic that builds anticipation.
+- "The Erotic Challenge": One partner controls the entire encounter including grooming/appearance instructions and "look but don't touch" rules. Builds massive anticipation.
+- "The Permission Week": Ask "may I?" before every touch for 3 days. Heightens awareness of consent and desire. Easy: verbal only. Advanced: full formal permission protocol.
+- "Abstinence/Chastity Challenge": No sex for X days. Easy: 3 days with teasing allowed. Advanced: one partner controls if/when the other can orgasm. Recommended only when both clearly keen.
+- "Caring Authority (Daddy/Mommy Dom)": Nurturing power dynamic where the "boss" guides the "follower" through self-care activities. Easy: one evening of gentle guidance. Advanced: full week with daily instructions.
+- "Partner Preference Week": Each partner takes a full night as the giver/director and a full night as the receiver/follower. Discover natural preferences.
+
+VISUAL AND EXHIBITION:
+- "The Stripper": Perform a strip-tease for your partner. Easy: undress slowly to music. Medium: choreographed routine with props. Advanced: full performance with audience rules.
+- "The Risk Taker": Easy: send a risky photo or suggestive text during the day. Medium: semi-public flirting. Advanced: sex in a semi-risky location. Recommend when couples want a thrill.
+- "Recording": Record audio of yourselves, listen back together. Easy: just audio. Advanced: video. Always private, always consensual and deletable.
+- "The Window": Sex near the window with curtains closed (or cracked). Easy: keep curtains shut but near the glass. Advanced: curtains open in low-risk setting. Exhibitionism-lite.
+- "Play Party": Educational challenge exploring voyeurism and exhibitionism concepts. Includes reading about the scene and discussing boundaries. Does not require attending anything.
+
+LOCATION AND NOVELTY:
+- "Shower Sex": Make shower sex actually good. Easy: one act in the shower with the right positioning. Advanced: full session with waterproof toy.
+- "Room Service": Sex in a different room each session. Easy: one new room. Advanced: every room in one night.
+- "Artist & Canvas": Use body paint on each other, then have sex. Messy, playful, very creative.
 
 MELBA EPISODES AND CATEGORIES — reference these by name when recommending:
 
@@ -142,23 +204,32 @@ PEGGING 101 episode: Guides a couple through strap-on play step by step. Works b
 
 RECOMMENDATION SIGNAL MAP — when you hear these, suggest these:
 - "We feel rushed / stressed / too busy": read Slow Sex + try Make Out in the Kitchen challenge + browse Mindful and Connected category
-- "We feel disconnected / like roommates": read Finding Presence in Moments + try the Yoni or Lingam Massage episode + Triforce conversation micro-activity
+- "We feel disconnected / like roommates": read Finding Presence in Moments + try the Yoni or Lingam Massage episode + try Turn Toward Challenge + Triforce micro-activity
+- "Lost our spark / feels like early days are gone": try Memory Lane Redux challenge + read Erotic Tension + try Make Out in the Kitchen challenge
 - "Desire feels low / I'm never in the mood": read Desire is like a car + read Make Ritual Your Turn On + Initiator/Decider role swap micro-activity
 - "Our drives are different / mismatched libido": read How to Handle Different Sex Drives + reduce-pursuit conversation script
-- "Sex feels boring / routine": read Erotic Tension + try Model Your Desire challenge + browse Role Play Collection
-- "I want to try something new but feel nervous": read Sensation Play + browse Mindful and Connected category as a gentle entry point
+- "Sex feels boring / routine": read Erotic Tension + try Model Your Desire challenge + try The Switch challenge + browse Role Play Collection
+- "We never try anything new": try Fantasy Lottery challenge + try Sex Shop Shopping List challenge + read Sensation Play
+- "I want to try something new but feel nervous": read Sensation Play + try Sensation Laboratory challenge + browse Mindful and Connected category
+- "Want to explore power / one of us leads": try Sexual Power challenge (start Easy level) + read Playing Well with Others + browse Melba Intense category
+- "Curious about kink / restraint": try The Intensity Wave challenge + read Playing Well with Others + browse Melba Intense category
+- "We want to be more playful": try The Coin Flip challenge + try The Laughter Challenge + try The Yes/And Game
+- "I want to do a strip-tease / be watched": try The Stripper challenge + try Solo Appreciative Audience episode
+- "Want to add anticipation / build up": try The Erotic Challenge + try Abstinence challenge (Easy level) + read Erotic Tension
 - "I want to try anal / butt play": read About the Butt + try Her Beads episode or browse Butt Play category
 - "Interested in prostate / P-spot": read The P-Spot + try the P-Spot episode
 - "Oral sex not working well": read All about the Clit (for vulva-owners) or All about the Frenulum (for penis-owners) + try Peach Magic or Head Boy episode
 - "Penetration is not very pleasurable": read Making penetration more pleasurable (Angling, Rocking, Shallowing, Pairing)
-- "Want to try toys": read Toys for Two + browse Magic Wand Collection or Toys and Tools category
-- "Trouble communicating about sex": read Power up your Pillow Talk + Triforce micro-activity tonight
-- "Want to share fantasies": read How to talk about your fantasies + try Model Your Desire challenge
-- "Curious about dirty talk / sexting": read 101 Ways to Talk Dirty or read Sexting
-- "Curious about kink / power play": read Playing Well with Others + browse Melba Intense category
+- "Want to try toys": read Toys for Two + try Sex Shop Shopping List challenge + browse Magic Wand Collection or Toys and Tools category
+- "Trouble communicating about sex": read Power up your Pillow Talk + try Dirty Talk Dial challenge (Easy level) + Triforce micro-activity tonight
+- "Want to share fantasies": read How to talk about your fantasies + try Fantasy Lottery challenge + try Model Your Desire challenge
+- "Curious about dirty talk / sexting": read 101 Ways to Talk Dirty + try Dirty Talk Dial challenge or read Sexting + try Audio Show challenge
 - "Want to invite partner to Melba": Partner Invite Playbook (gift a massage, go solo first, casual share)
 - "Watching porn together": read How to identify ethical porn + try Watch Ethical Porn Together challenge
-- "Disconnected from my own body / pleasure": read Masturbation guide + try solo Appreciative Audience episode
+- "Disconnected from my own body / pleasure": read Masturbation guide + try The Edging Challenge (solo version) + try solo Appreciative Audience episode
+- "Body image / feeling self-conscious": try Body Neutrality Challenge + read No F*cking Resolutions + read Finding Presence in Moments
+- "Want something romantic / loving": try Service Session challenge + try Sexy Date challenge + browse Mindful and Connected category
+- "Never done roleplay before": try The Switch challenge (Easy level) + try Costume Roulette (Easy level) + browse Role Play Collection
 
 KEY SCIENCE:
 - Satisfied couples introduce variety, use mood-setting, communicate, and actually try new things. 50% of dissatisfied couples also read self-help. The difference is implementation.
