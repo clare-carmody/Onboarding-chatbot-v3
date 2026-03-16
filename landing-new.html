@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Melba — Welcome</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:            #FDF0EC;
+      --primary:       #5151F7;
+      --primary-light: #EEEEFF;
+      --text-dark:     #1A1040;
+      --text-mid:      #6B6B8A;
+      --text-light:    #A0A0BC;
+      --border:        #EAE0F2;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #D6C8BF;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      font-family: 'DM Sans', sans-serif;
+      padding: 20px 0 40px;
+    }
+
+    .phone {
+      width: 390px;
+      min-height: 844px;
+      background: var(--bg);
+      border-radius: 44px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.28);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(160deg, #5151F7 0%, #9B7BE8 60%, #E88FD8 100%);
+      padding: 56px 28px 40px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-emoji {
+      font-size: 52px;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .hero-wordmark {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 12px;
+    }
+
+    .hero-headline {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 30px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.6;
+      max-width: 280px;
+      margin: 0 auto;
+    }
+
+    /* Body */
+    .body {
+      flex: 1;
+      padding: 28px 24px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Primary CTA card */
+    .cta-card {
+      background: var(--primary);
+      border-radius: 20px;
+      padding: 22px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 6px 24px rgba(81,81,247,0.25);
+    }
+
+    .cta-card:active { transform: scale(0.98); }
+
+    .cta-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .cta-card-text { flex: 1; }
+
+    .cta-card-title {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 3px;
+    }
+
+    .cta-card-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.5;
+    }
+
+    .cta-card-arrow {
+      color: rgba(255,255,255,0.6);
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    /* Secondary CTA card */
+    .cta-card-secondary {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 22px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s, border-color 0.2s;
+    }
+
+    .cta-card-secondary:active { transform: scale(0.98); }
+    .cta-card-secondary:hover { border-color: var(--primary); }
+
+    .cta-card-secondary .cta-card-icon {
+      background: var(--primary-light);
+    }
+
+    .cta-card-secondary .cta-card-title { color: var(--text-dark); }
+    .cta-card-secondary .cta-card-sub { color: var(--text-mid); }
+    .cta-card-secondary .cta-card-arrow { color: var(--text-light); }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-light);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Trust row */
+    .trust-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .trust-pill {
+      flex: 1;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 8px 6px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-mid);
+      line-height: 1.4;
+    }
+
+    .trust-pill strong {
+      display: block;
+      font-size: 13px;
+      color: var(--text-dark);
+      font-weight: 600;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 0 24px 28px;
+      font-size: 11px;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+<div class="phone">
+
+  <div class="hero">
+    <span class="hero-emoji">🍑</span>
+    <div class="hero-wordmark">Melba</div>
+    <h1 class="hero-headline">Your first intimate adventure starts here</h1>
+    <p class="hero-sub">Science-backed experiences designed to help you connect, explore, and enjoy together.</p>
+  </div>
+
+  <div class="body">
+
+    <a class="cta-card" href="index.html">
+      <div class="cta-card-icon">✨</div>
+      <div class="cta-card-text">
+        <div class="cta-card-title">Start your first experience</div>
+        <div class="cta-card-sub">A guided adventure, just for you two</div>
+      </div>
+      <div class="cta-card-arrow">›</div>
+    </a>
+
+    <div class="divider">or</div>
+
+    <a class="cta-card cta-card-secondary" href="coach.html">
+      <div class="cta-card-icon" style="font-size:20px;">💬</div>
+      <div class="cta-card-text">
+        <div class="cta-card-title">Talk to Melba first</div>
+        <div class="cta-card-sub">Not sure where to start? Ask the coach anything.</div>
+      </div>
+      <div class="cta-card-arrow">›</div>
+    </a>
+
+    <a class="cta-card cta-card-secondary" href="#">
+      <div class="cta-card-icon" style="font-size:20px;">💌</div>
+      <div class="cta-card-text">
+        <div class="cta-card-title">Invite your partner</div>
+        <div class="cta-card-sub">Share a link so you can explore together</div>
+      </div>
+      <div class="cta-card-arrow">›</div>
+    </a>
+
+    <div class="trust-row">
+      <div class="trust-pill"><strong>100%</strong> private</div>
+      <div class="trust-pill"><strong>50+ years</strong> research</div>
+      <div class="trust-pill"><strong>No pressure</strong> approach</div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    Everything you share stays private.<br>Melba is an AI guide, not a therapist.
+  </div>
+
+</div>
+</body>
+</html>
