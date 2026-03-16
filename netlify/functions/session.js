@@ -86,7 +86,7 @@ exports.handler = async (event) => {
         return {
           statusCode: 200,
           headers: { ...CORS, "Content-Type": "application/json" },
-          body: JSON.stringify({ partnerA: null, partnerB: null, partnerReady: false }),
+          body: JSON.stringify({ partnerA: null, partnerB: null, partnerReady: false, match: null }),
         };
       }
       return {
@@ -96,7 +96,25 @@ exports.handler = async (event) => {
           partnerA:     session.partnerA,
           partnerB:     session.partnerB,
           partnerReady: !!(session.partnerA && session.partnerB),
+          match:        session.match || null,
         }),
+      };
+    }
+
+    if (action === "saveMatch") {
+      if (!coupleId || !answers) {
+        return { statusCode: 400, headers: CORS, body: JSON.stringify({ error: "Missing fields" }) };
+      }
+      let session = await redisGet(coupleId);
+      if (!session) {
+        return { statusCode: 404, headers: CORS, body: JSON.stringify({ error: "Session not found" }) };
+      }
+      session.match = answers; // reuse answers field to pass match data
+      await redisSet(coupleId, session);
+      return {
+        statusCode: 200,
+        headers: { ...CORS, "Content-Type": "application/json" },
+        body: JSON.stringify({ saved: true }),
       };
     }
 

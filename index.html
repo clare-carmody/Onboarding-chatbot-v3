@@ -321,7 +321,16 @@ async function afterQuiz(){
         clearInterval(pollTimer);removeWaitingCard();
         await delay(300);showTyping();await delay(800);removeTyping();
         addMelba("Your partner just finished! 🎉 Finding your joint recommendation now…",true);
-        await delay(500);fetchJointMatch(session.partnerA,session.partnerB);
+        await delay(500);
+        if(session.match){
+          // Partner B already generated and saved the match — use it directly
+          showStoredMatch(session.match);
+        } else {
+          // Match not saved yet — poll briefly for it, then generate if needed
+          let stored=null;
+          for(let i=0;i<5;i++){await delay(1000);const s=await pollForPartner();if(s&&s.match){stored=s.match;break;}}
+          if(stored){showStoredMatch(stored);}else{fetchJointMatch(session.partnerA,session.partnerB);}
+        }
       }
     },4000);
   } else {
@@ -361,6 +370,10 @@ async function fetchJointMatch(answersA,answersB){
   try{
     const res=await fetch("/.netlify/functions/match",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({answers:{partnerA:answersA,partnerB:answersB},episodes:EPISODES})});
     const match=await res.json();
+    // Save the match result to Redis so Partner A retrieves the same result
+    if(coupleId){
+      fetch("/.netlify/functions/session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"saveMatch",coupleId,answers:match})}).catch(()=>{});
+    }
     removeTyping();
     addResultCard(match,true);
     await delay(800);showTyping();await delay(700);removeTyping();
@@ -370,6 +383,14 @@ async function fetchJointMatch(answersA,answersB){
     removeTyping();
     addMelba("Something went wrong finding your match. Please try again 🙏",true);
   }
+}
+
+async function showStoredMatch(match){
+  removeTyping();
+  addResultCard(match,true);
+  await delay(800);showTyping();await delay(700);removeTyping();
+  addMelba("This one was chosen for both of you — together. Enjoy tonight 🌸",true);
+  await delay(1000);addCoachEntryCard();
 }
 
 async function runStep(index,isB){
