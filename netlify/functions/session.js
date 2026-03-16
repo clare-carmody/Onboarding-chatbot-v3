@@ -1,6 +1,6 @@
 const REDIS_URL   = process.env.UPSTASH_REDIS_REST_URL;
 const REDIS_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
-const TTL         = 3600;
+const TTL         = 3600; // 1 hour
 
 const CORS = {
   "Access-Control-Allow-Origin":  "*",
