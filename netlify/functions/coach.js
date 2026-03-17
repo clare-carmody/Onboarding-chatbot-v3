@@ -276,12 +276,23 @@ exports.handler = async (event) => {
       return { statusCode: 400, headers: CORS, body: JSON.stringify({ error: "messages required" }) };
     }
 
+    // Anthropic API requires messages to start with a user turn.
+    // The client may send a leading assistant message (the UI greeting) —
+    // strip any assistant messages from the front of the array before sending.
+    let messages = body.messages.map((m) => ({ role: m.role, content: m.content }));
+    while (messages.length > 0 && messages[0].role === "assistant") {
+      messages = messages.slice(1);
+    }
+    if (!messages.length) {
+      return { statusCode: 400, headers: CORS, body: JSON.stringify({ error: "no user messages found" }) };
+    }
+
     const client = new Anthropic();
     const response = await client.messages.create({
       model: "claude-sonnet-4-20250514",
       max_tokens: 1024,
       system: buildSystemPrompt(body.userContext),
-      messages: body.messages.map((m) => ({ role: m.role, content: m.content })),
+      messages,
     });
 
     const raw = response.content.filter((b) => b.type === "text").map((b) => b.text).join("");
