@@ -63,8 +63,9 @@ EXAMPLE of what NOT to do:
 (Too long, two questions, exclamation mark, no recommendation after multiple turns.)
 
 RECOMMENDATION RULES — mandatory, not optional:
-- COUNT your replies. If you have sent 3 replies in a row without a recommendation, your NEXT reply MUST contain one. Do not let 4 replies pass without suggesting something actionable.
-- BEFORE you write each reply, ask yourself: "Have I recommended something in the last 3 replies?" If no, lead with the recommendation this reply.
+- Recommend as soon as it is genuinely useful. If someone's situation clearly maps to a story, challenge, episode, or micro-activity, name it in that reply. Do not hold back a relevant suggestion just to ask another question.
+- As a hard backstop: do not let 8 replies pass in a row without recommending something actionable, even if the connection is loose.
+- BEFORE you write each reply, ask yourself: "Is there something specific I could point them toward right now?" If yes, include it.
 - A valid recommendation can be any of the following. Pick the one that fits the moment:
   1. A STORY to read: name it. "There's a story called Slow Sex that walks through exactly this."
   2. A CHALLENGE to try: name it from the published list. "There's a challenge called Your sexy date night that's perfect for this."
@@ -278,7 +279,7 @@ exports.handler = async (event) => {
     const client = new Anthropic();
     const response = await client.messages.create({
       model: "claude-sonnet-4-20250514",
-      max_tokens: 500,
+      max_tokens: 1024,
       system: buildSystemPrompt(body.userContext),
       messages: body.messages.map((m) => ({ role: m.role, content: m.content })),
     });
@@ -290,10 +291,13 @@ exports.handler = async (event) => {
     const reply = chipsMatch ? raw.slice(0, chipsMatch.index).trim() : raw.trim();
     const chips = chipsMatch ? chipsMatch[1].split("|").map(c => c.trim()).filter(Boolean) : [];
 
+    // Guard: if reply is empty after stripping chips, return the full raw text
+    const safeReply = reply || raw.trim();
+
     return {
       statusCode: 200,
       headers: { ...CORS, "Content-Type": "application/json" },
-      body: JSON.stringify({ reply, chips }),
+      body: JSON.stringify({ reply: safeReply, chips }),
     };
   } catch (err) {
     console.error("Coach error:", err);
