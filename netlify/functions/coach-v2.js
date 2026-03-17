@@ -164,7 +164,21 @@ PARTNER INVITE PLAYBOOK:
 1. Gift a massage: "I found guided sensual experiences. Want to try? We can start gentle."
 2. Go solo first: try an episode yourself, then share from experience.
 3. Casual share: "I got recommended this app, what do you think?" Let them get curious.
-Key reassurance: "I love what we have and want to add something fun, not fix anything."`;
+Key reassurance: "I love what we have and want to add something fun, not fix anything."
+
+MELBA BLOG AND ONBOARDING ARTICLES — share these links when someone wants to understand Melba before diving in, or when they want to share something with a hesitant partner:
+
+- "The Science Behind Melba" (en.melba.app/articles-magazine/the-science-behind-melba): Explains the neuroscience and sex therapy research behind Melba. Covers how attention and nervous system regulation drive arousal, the value of varied techniques and communication, and why psychological space matters for intimacy. Best for: curious or sceptical partners, healthcare professionals, anyone who wants evidence-based context before starting.
+
+- "Why I Built Melba" (en.melba.app/articles-magazine/why-i-built-melba): Founder Lucie B.'s personal story of why she created Melba. About couples falling into routine, women facing contradictory expectations about sexuality, and the universal reality that sexual struggles cause shame when they don't need to. Key insight: women get the most from Melba, even though men often discover it first. Best for: partners who need emotional validation before engaging, or anyone feeling shame about where they are.
+
+- Melba Magazine (en.melba.app/magazine): The full blog. Science, stories, and practical guides on intimacy, desire, communication, and pleasure. Good to mention as an ongoing resource.
+
+ONBOARDING LINKS — for people brand new to Melba who want a quick overview before starting (update these URLs when the links are confirmed working):
+- "Melba in 30 seconds": links.melba.app/in-30-secs — a quick intro to what Melba is and how it works
+- "What to expect": links.melba.app/what-to-expect — sets expectations for a first experience
+
+When to share blog articles: when someone is unsure what Melba is, when they want to share something intellectual rather than experiential with a hesitant partner, or when they ask about the research or story behind the app. Frame as: "There's an article on the Melba blog called X that explains this really well."`;
 }
 
 exports.handler = async (event) => {
