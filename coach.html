@@ -165,7 +165,8 @@ async function initCoach() {
   removeTyping();
   const opening = "Hey 🍑 I'm Melba, your personal intimacy guide. What's on your mind today?";
   addMelba(opening);
-  coachHistory.push({ role: "assistant", content: opening });
+  // Do NOT push the greeting into coachHistory — the Anthropic API requires messages
+  // to start with a user turn. The greeting is UI-only; context comes from the system prompt.
   showPrompts(OPENING_PROMPTS);
 }
 
