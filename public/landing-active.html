@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Melba — Explore</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:            #FDF0EC;
+      --primary:       #5151F7;
+      --primary-light: #EEEEFF;
+      --text-dark:     #1A1040;
+      --text-mid:      #6B6B8A;
+      --text-light:    #A0A0BC;
+      --border:        #EAE0F2;
+      --coach-bg:      #F7F4FF;
+      --coach-border:  #D4CAFF;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #D6C8BF;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      font-family: 'DM Sans', sans-serif;
+      padding: 20px 0 40px;
+    }
+
+    .phone {
+      width: 390px;
+      min-height: 844px;
+      background: var(--bg);
+      border-radius: 44px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.28);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top bar */
+    .topbar {
+      padding: 28px 24px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .topbar-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #5151F7, #9B7BE8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .topbar-name {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .topbar-streak {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-mid);
+    }
+
+    /* Greeting */
+    .greeting {
+      padding: 0 24px 22px;
+    }
+
+    .greeting-label {
+      font-size: 12px;
+      color: var(--text-light);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    .greeting-headline {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.2;
+    }
+
+    /* Section label */
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0 24px;
+      margin-bottom: 10px;
+    }
+
+    /* Feature cards */
+    .cards {
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .feature-card {
+      border-radius: 20px;
+      padding: 20px 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card:active { transform: scale(0.98); }
+
+    .feature-card.stories {
+      background: linear-gradient(135deg, #5151F7 0%, #9B7BE8 100%);
+    }
+
+    .feature-card.experiences {
+      background: linear-gradient(135deg, #E88FD8 0%, #F7A5B0 100%);
+    }
+
+    .feature-card.coach {
+      background: var(--coach-bg);
+      border: 1.5px solid var(--coach-border);
+    }
+
+    .feature-card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .stories .feature-card-icon  { background: rgba(255,255,255,0.18); }
+    .experiences .feature-card-icon { background: rgba(255,255,255,0.25); }
+    .coach .feature-card-icon { background: #fff; box-shadow: 0 2px 8px rgba(81,81,247,0.10); }
+
+    .feature-card-body { flex: 1; }
+
+    .feature-card-title {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 4px;
+      line-height: 1.2;
+    }
+
+    .stories .feature-card-title,
+    .experiences .feature-card-title { color: #fff; }
+    .coach .feature-card-title { color: var(--primary); }
+
+    .feature-card-sub {
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .stories .feature-card-sub,
+    .experiences .feature-card-sub { color: rgba(255,255,255,0.78); }
+    .coach .feature-card-sub { color: var(--text-mid); }
+
+    .feature-card-badge {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      background: rgba(255,255,255,0.25);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+    }
+
+    .coach .feature-card-badge {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    /* Quick picks */
+    .quick-section {
+      margin-top: 22px;
+      padding: 0 24px;
+    }
+
+    .quick-scroll {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+
+    .quick-scroll::-webkit-scrollbar { display: none; }
+
+    .quick-chip {
+      flex-shrink: 0;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      padding: 9px 16px;
+      font-size: 13px;
+      color: var(--text-dark);
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      transition: border-color 0.18s, background 0.18s;
+    }
+
+    .quick-chip:active {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 22px 24px 28px;
+      font-size: 11px;
+      color: var(--text-light);
+    }
+  </style>
+</head>
+<body>
+<div class="phone">
+
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-avatar">🍑</div>
+      <div class="topbar-name">Melba</div>
+    </div>
+    <div class="topbar-streak">🔥 4 week streak</div>
+  </div>
+
+  <div class="greeting">
+    <div class="greeting-label">Good evening</div>
+    <div class="greeting-headline">What are you exploring tonight?</div>
+  </div>
+
+  <div class="section-label">Jump in</div>
+
+  <div class="cards">
+
+    <a class="feature-card stories" href="#">
+      <div class="feature-card-icon">📖</div>
+      <div class="feature-card-body">
+        <div class="feature-card-title">Sex ed stories</div>
+        <div class="feature-card-sub">Science, desire, and what actually works</div>
+      </div>
+      <div class="feature-card-badge">New</div>
+    </a>
+
+    <a class="feature-card experiences" href="index.html">
+      <div class="feature-card-icon">✨</div>
+      <div class="feature-card-body">
+        <div class="feature-card-title">New experience</div>
+        <div class="feature-card-sub">Get tonight's personalised recommendation</div>
+      </div>
+    </a>
+
+    <a class="feature-card coach" href="coach.html">
+      <div class="feature-card-icon">💬</div>
+      <div class="feature-card-body">
+        <div class="feature-card-title">Couples coaching</div>
+        <div class="feature-card-sub">Talk through anything with Melba</div>
+      </div>
+      <div class="feature-card-badge">Private</div>
+    </a>
+
+  </div>
+
+  <div class="quick-section">
+    <div class="section-label" style="padding:0; margin-bottom:10px;">Quick questions</div>
+    <div class="quick-scroll">
+      <div class="quick-chip">How do I bring something up?</div>
+      <div class="quick-chip">We feel a bit stuck</div>
+      <div class="quick-chip">I want to try something new</div>
+      <div class="quick-chip">How do I invite my partner?</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Everything you share stays private.<br>Melba is an AI guide, not a therapist.
+  </div>
+
+</div>
+</body>
+</html>
