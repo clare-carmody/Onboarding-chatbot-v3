@@ -195,13 +195,20 @@ async function sendCoachMessage() {
     removeTyping();
     if (data.reply) {
       addMelba(data.reply);
-      coachHistory.push({ role: "assistant", content: data.reply });
+      // Store the FULL reply including CHIPS line in history so the model can
+      // see what format was used last turn and correctly alternate next reply.
+      const fullContent = (data.chips && data.chips.length)
+        ? `${data.reply}\nCHIPS: ${data.chips.join(" | ")}`
+        : data.reply;
+      coachHistory.push({ role: "assistant", content: fullContent });
       if (data.chips && data.chips.length) showPrompts(data.chips);
     } else {
+      console.error("Coach error response:", data);
       addMelba("Something went wrong, please try again 🙏");
     }
   } catch (err) {
     removeTyping();
+    console.error("Coach fetch error:", err);
     addMelba("Something went wrong, please try again 🙏");
   }
 
