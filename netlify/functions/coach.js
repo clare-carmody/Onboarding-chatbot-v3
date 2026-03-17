@@ -132,7 +132,7 @@ exports.handler = async (event) => {
 
     const client = new Anthropic();
     const response = await client.messages.create({
-      model: "claude-3-5-haiku-20241022",
+      model: "claude-3-haiku-20240307",
       max_tokens: 500,
       system: buildSystemPrompt(body.userContext),
       messages: body.messages.map((m) => ({ role: m.role, content: m.content })),
