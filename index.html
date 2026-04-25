@@ -2,465 +2,905 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Melba — Find Your Experience Together</title>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intim.ai — AI Intimacy Coaching</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #FDF0EC;
-    --primary: #5151F7;
-    --primary-light: #EEEEFF;
-    --text-dark: #1A1040;
-    --text-mid: #6B6B8A;
-    --text-light: #A0A0BC;
-    --border: #EAE0F2;
-    --coach-bg: #F7F4FF;
-    --coach-border: #D4CAFF;
+    --teal:       #075E54;
+    --teal-mid:   #128C7E;
+    --teal-light: #25D366;
+    --teal-pale:  #E8F5F3;
+    --teal-wash:  #F0F9F7;
+    --dark:       #0A1628;
+    --mid:        #3D5A6B;
+    --muted:      #6B8A99;
+    --border:     #D1E8E4;
+    --white:      #FFFFFF;
+    --bg:         #F7FAFA;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body { background: #D6C8BF; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; font-family: 'DM Sans', sans-serif; padding: 20px 0 40px; }
-  .phone { width: 390px; min-height: 844px; background: var(--bg); border-radius: 44px; overflow: hidden; position: relative; box-shadow: 0 32px 80px rgba(0,0,0,0.28); display: flex; flex-direction: column; }
-  .screen { position: absolute; inset: 0; background: var(--bg); z-index: 20; display: flex; flex-direction: column; transition: opacity 0.4s, transform 0.4s; }
-  .screen.hidden { opacity: 0; pointer-events: none; transform: translateX(-20px); }
-  .screen.slide-right.hidden { transform: translateX(20px); }
-  #landingScreen { align-items: center; justify-content: center; padding: 48px 32px; }
-  .landing-logo { font-size: 52px; margin-bottom: 20px; }
-  .landing-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 26px; font-weight: 800; color: var(--text-dark); text-align: center; margin-bottom: 12px; line-height: 1.2; }
-  .landing-sub { font-size: 14px; color: var(--text-mid); text-align: center; line-height: 1.65; margin-bottom: 36px; }
-  .landing-btn { width: 100%; padding: 15px; background: var(--primary); color: #fff; border: none; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; margin-bottom: 12px; transition: transform 0.15s; }
-  .landing-btn:active { transform: scale(0.98); }
-  .landing-hint { font-size: 12px; color: var(--text-light); text-align: center; margin-top: 12px; }
-  #instructionsScreen { overflow-y: auto; padding: 0; }
-  .inst-hero { background: linear-gradient(160deg, #5151F7 0%, #9B7BE8 60%, #D97AC4 100%); padding: 60px 28px 32px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-  .inst-hero-icon { font-size: 44px; margin-bottom: 14px; }
-  .inst-hero-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 8px; }
-  .inst-hero-sub { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.6; }
-  .inst-body { padding: 24px 24px 32px; }
-  .inst-section { margin-bottom: 28px; }
-  .inst-section-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; font-weight: 800; color: var(--text-dark); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-  .inst-item { display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
-  .inst-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-  .inst-text { font-size: 13.5px; color: var(--text-mid); line-height: 1.6; }
-  .inst-text strong { color: var(--text-dark); font-weight: 600; }
-  .inst-divider { height: 1px; background: var(--border); margin: 20px 0; }
-  .inst-coach-card { background: var(--coach-bg); border: 1.5px solid var(--coach-border); border-radius: 16px; padding: 16px; margin-bottom: 24px; }
-  .inst-coach-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 15px; font-weight: 800; color: var(--primary); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
-  .inst-coach-desc { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
-  .inst-start-btn { width: 100%; padding: 15px; background: var(--primary); color: #fff; border: none; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.15s; }
-  .inst-start-btn:active { transform: scale(0.98); }
-  .chat-header { padding: 52px 24px 16px; background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-shrink: 0; position: relative; z-index: 10; }
-  .avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #5151F7, #D97AC4); display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0; }
-  .header-info { flex: 1; }
-  .header-name { font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; font-weight: 700; color: var(--text-dark); line-height: 1.2; }
-  .header-status { font-size: 12px; color: var(--text-mid); display: flex; align-items: center; gap: 5px; margin-top: 2px; }
-  .status-dot { width: 7px; height: 7px; background: #4CAF50; border-radius: 50%; }
-  .role-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 100px; background: var(--primary-light); color: var(--primary); display: none; }
-  .role-badge.show { display: inline-block; }
-  .progress-wrap { display: flex; align-items: center; gap: 5px; }
-  .prog-step { width: 24px; height: 3px; background: var(--border); border-radius: 100px; transition: background 0.4s; }
-  .prog-step.done { background: var(--primary); }
-  .chat-area { flex: 1; overflow-y: auto; padding: 20px 16px 8px; display: flex; flex-direction: column; gap: 3px; scroll-behavior: smooth; }
-  .chat-area::-webkit-scrollbar { display: none; }
-  .chat-spacer { flex: 1; min-height: 0; }
-  .bubble-row { display: flex; align-items: flex-end; gap: 8px; opacity: 0; transform: translateY(12px); transition: opacity 0.35s ease, transform 0.35s ease; margin-bottom: 2px; }
-  .bubble-row.show { opacity: 1; transform: translateY(0); }
-  .bubble-row.user-row { justify-content: flex-end; }
-  .mini-av { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #5151F7, #D97AC4); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; margin-bottom: 2px; }
-  .mini-av.ghost { visibility: hidden; }
-  .bubble { max-width: 74%; padding: 11px 15px; border-radius: 18px; font-size: 15px; line-height: 1.55; }
-  .melba-bubble { background: #fff; color: var(--text-dark); border-bottom-left-radius: 5px; box-shadow: 0 1px 8px rgba(0,0,0,0.08); }
-  .user-bubble { background: var(--primary); color: #fff; border-bottom-right-radius: 5px; }
-  .typing-row { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 2px; opacity: 0; transition: opacity 0.2s; }
-  .typing-row.show { opacity: 1; }
-  .typing-bubble { background: #fff; border-radius: 18px; border-bottom-left-radius: 5px; padding: 13px 16px; box-shadow: 0 1px 8px rgba(0,0,0,0.08); display: flex; gap: 5px; align-items: center; }
-  .dot { width: 7px; height: 7px; background: var(--text-light); border-radius: 50%; animation: bounce 1.2s ease-in-out infinite; }
-  .dot:nth-child(2) { animation-delay: 0.18s; }
-  .dot:nth-child(3) { animation-delay: 0.36s; }
-  @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
-  .chips-wrap { flex-shrink: 0; overflow: hidden; max-height: 0; transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s; opacity: 0; }
-  .chips-wrap.open { max-height: 200px; opacity: 1; }
-  .chips-inner { padding: 10px 16px 6px; display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip { padding: 9px 15px; background: #fff; border: 1.5px solid #DDD6F0; border-radius: 100px; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text-dark); cursor: pointer; transition: all 0.18s; white-space: nowrap; }
-  .chip:active { transform: scale(0.96); }
-  .chip.selected { background: var(--primary); border-color: var(--primary); color: #fff; }
-  .input-area { flex-shrink: 0; padding: 10px 16px 38px; background: var(--bg); border-top: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
-  .text-input { flex: 1; padding: 12px 16px; background: #fff; border: 1.5px solid var(--border); border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--text-dark); outline: none; transition: border-color 0.2s; }
-  .text-input:focus { border-color: var(--primary); }
-  .text-input::placeholder { color: var(--text-light); }
-  .send-btn { width: 42px; height: 42px; background: var(--primary); border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: transform 0.15s, opacity 0.2s; opacity: 0.35; pointer-events: none; }
-  .send-btn.active { opacity: 1; pointer-events: all; }
-  .send-btn:active { transform: scale(0.92); }
-  .invite-card { background: #fff; border-radius: 18px; padding: 18px; max-width: 82%; box-shadow: 0 2px 18px rgba(0,0,0,0.10); }
-  .invite-heading { font-family: 'Bricolage Grotesque', sans-serif; font-size: 15px; font-weight: 800; color: var(--text-dark); margin-bottom: 6px; }
-  .invite-sub { font-size: 12.5px; color: var(--text-mid); line-height: 1.55; margin-bottom: 14px; }
-  .invite-copy-btn { width: 100%; padding: 11px; background: var(--primary); color: #fff; border: none; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; }
-  .waiting-card { background: #fff; border-radius: 18px; padding: 20px 18px; max-width: 80%; box-shadow: 0 2px 18px rgba(0,0,0,0.10); text-align: center; }
-  .waiting-pulse { font-size: 30px; animation: pulse 1.8s ease-in-out infinite; display: block; margin-bottom: 10px; }
-  @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.12);opacity:0.7} }
-  .waiting-text { font-size: 14px; color: var(--text-mid); line-height: 1.55; }
-  .result-card { background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 2px 18px rgba(0,0,0,0.11); max-width: 80%; }
-  .rc-hero { height: 110px; background: linear-gradient(135deg, #5151F7 0%, #9B7BE8 55%, #D97AC4 100%); display: flex; align-items: flex-end; padding: 12px 14px; position: relative; }
-  .rc-tag { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.85); letter-spacing: 1px; text-transform: uppercase; }
-  .rc-joint-badge { position: absolute; top: 12px; left: 14px; background: rgba(255,255,255,0.25); backdrop-filter: blur(6px); border-radius: 100px; padding: 3px 10px; font-size: 10px; font-weight: 600; color: #fff; letter-spacing: 0.5px; }
-  .rc-sparkle { position: absolute; top: 12px; right: 14px; font-size: 20px; animation: float 3s ease-in-out infinite; }
-  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
-  .rc-body { padding: 12px 14px 14px; }
-  .rc-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 17px; font-weight: 800; color: var(--text-dark); margin-bottom: 5px; }
-  .rc-desc { font-size: 12.5px; color: var(--text-mid); line-height: 1.5; margin-bottom: 10px; }
-  .rc-chips { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 12px; }
-  .rc-chip { padding: 3px 9px; background: var(--primary-light); color: var(--primary); border-radius: 100px; font-size: 11.5px; font-weight: 500; }
-  .rc-btn { width: 100%; padding: 11px; background: var(--primary); color: #fff; border: none; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; }
-  .coach-entry-card { background: var(--coach-bg); border: 1.5px solid var(--coach-border); border-radius: 18px; padding: 16px; max-width: 84%; box-shadow: 0 2px 18px rgba(81,81,247,0.10); }
-  .coach-entry-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 14px; font-weight: 800; color: var(--primary); margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
-  .coach-entry-desc { font-size: 12.5px; color: var(--text-mid); line-height: 1.55; margin-bottom: 12px; }
-  .coach-entry-btn { width: 100%; padding: 10px; background: var(--primary); color: #fff; border: none; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; }
-  #coachScreen { flex-direction: column; z-index: 30; }
-  .coach-header { padding: 52px 20px 14px; background: var(--coach-bg); border-bottom: 1.5px solid var(--coach-border); display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-  .coach-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #5151F7, #9B7BE8); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-  .coach-header-info { flex: 1; }
-  .coach-header-name { font-family: 'Bricolage Grotesque', sans-serif; font-size: 15px; font-weight: 800; color: var(--primary); }
-  .coach-header-sub { font-size: 11px; color: var(--text-mid); margin-top: 1px; }
-  .coach-back-btn { background: none; border: none; cursor: pointer; padding: 6px; color: var(--primary); font-size: 13px; font-weight: 600; font-family: 'DM Sans', sans-serif; }
-  .coach-chat { flex: 1; overflow-y: auto; padding: 16px 16px 8px; display: flex; flex-direction: column; gap: 3px; background: var(--coach-bg); scroll-behavior: smooth; }
-  .coach-chat::-webkit-scrollbar { display: none; }
-  .coach-spacer { flex: 1; min-height: 0; }
-  .coach-bubble-row { display: flex; align-items: flex-end; gap: 8px; opacity: 0; transform: translateY(10px); transition: opacity 0.3s, transform 0.3s; margin-bottom: 2px; }
-  .coach-bubble-row.show { opacity: 1; transform: translateY(0); }
-  .coach-bubble-row.user-row { justify-content: flex-end; }
-  .coach-mini-av { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, #5151F7, #9B7BE8); display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
-  .coach-bubble { max-width: 78%; padding: 10px 14px; border-radius: 16px; font-size: 14px; line-height: 1.6; }
-  .coach-melba-bubble { background: #fff; color: var(--text-dark); border-bottom-left-radius: 5px; box-shadow: 0 1px 8px rgba(81,81,247,0.10); }
-  .coach-user-bubble { background: var(--primary); color: #fff; border-bottom-right-radius: 5px; }
-  .coach-typing-row { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 2px; opacity: 0; transition: opacity 0.2s; }
-  .coach-typing-row.show { opacity: 1; }
-  .coach-typing-bubble { background: #fff; border-radius: 16px; border-bottom-left-radius: 5px; padding: 12px 14px; box-shadow: 0 1px 8px rgba(81,81,247,0.10); display: flex; gap: 5px; align-items: center; }
-  .coach-input-area { flex-shrink: 0; padding: 10px 16px 38px; background: var(--coach-bg); border-top: 1.5px solid var(--coach-border); display: flex; align-items: center; gap: 10px; }
-  .coach-text-input { flex: 1; padding: 11px 15px; background: #fff; border: 1.5px solid var(--coach-border); border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text-dark); outline: none; transition: border-color 0.2s; }
-  .coach-text-input:focus { border-color: var(--primary); }
-  .coach-text-input::placeholder { color: var(--text-light); }
-  .coach-send-btn { width: 40px; height: 40px; background: var(--primary); border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: transform 0.15s, opacity 0.2s; opacity: 0.35; pointer-events: none; }
-  .coach-send-btn.active { opacity: 1; pointer-events: all; }
-  .coach-send-btn:active { transform: scale(0.92); }
-  .coach-prompts { padding: 6px 16px 0; display: flex; flex-wrap: wrap; gap: 6px; background: var(--coach-bg); }
-  .coach-prompt-chip { padding: 7px 13px; background: #fff; border: 1.5px solid var(--coach-border); border-radius: 100px; font-size: 12px; font-family: 'DM Sans', sans-serif; color: var(--primary); cursor: pointer; transition: all 0.18s; white-space: nowrap; }
-  .coach-prompt-chip:active { transform: scale(0.96); background: var(--primary-light); }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--dark);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-logo .dot { color: var(--teal-mid); }
+  .nav-logo .badge {
+    background: var(--teal-light);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-cta {
+    background: var(--teal);
+    color: white !important;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-weight: 600 !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--teal-mid) !important; color: white !important; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 140px 40px 100px;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--teal-pale);
+    color: var(--teal);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--teal-light);
+    border-radius: 50%;
+  }
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 58px;
+    line-height: 1.1;
+    color: var(--dark);
+    margin-bottom: 24px;
+    letter-spacing: -0.5px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--teal-mid);
+  }
+  .hero-sub {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--mid);
+    margin-bottom: 40px;
+    font-weight: 400;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--teal);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 14px 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--teal-mid); transform: translateY(-1px); }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    color: var(--teal);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 14px 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    border: 1.5px solid var(--border);
+    transition: border-color 0.2s, transform 0.15s;
+    cursor: pointer;
+  }
+  .btn-secondary:hover { border-color: var(--teal-mid); transform: translateY(-1px); }
+
+  /* Chat mockup in hero */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+  }
+  .chat-card {
+    width: 320px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(7,94,84,0.15), 0 4px 16px rgba(0,0,0,0.06);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .chat-top {
+    background: var(--teal);
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .chat-av {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal-light), var(--teal-mid));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .chat-av::after {
+    content: '';
+    position: absolute; bottom: 1px; right: 1px;
+    width: 9px; height: 9px;
+    background: var(--teal-light);
+    border-radius: 50%;
+    border: 2px solid var(--teal);
+  }
+  .chat-top-info { flex: 1; }
+  .chat-top-name { font-size: 14px; font-weight: 600; color: white; }
+  .chat-top-status { font-size: 11px; color: rgba(255,255,255,0.75); margin-top: 1px; }
+  .chat-body {
+    padding: 16px;
+    background: #ECE5DD;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .chat-msg {
+    max-width: 85%;
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    position: relative;
+  }
+  .chat-in {
+    background: white;
+    color: #111B21;
+    align-self: flex-start;
+    border-top-left-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  .chat-out {
+    background: #DCF8C6;
+    color: #111B21;
+    align-self: flex-end;
+    border-top-right-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  .chat-time { font-size: 10px; color: #8696A0; margin-top: 3px; text-align: right; }
+  .chat-input-bar {
+    padding: 10px 14px 14px;
+    background: #F0F2F5;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .chat-input-fake {
+    flex: 1;
+    background: white;
+    border-radius: 20px;
+    padding: 8px 14px;
+    font-size: 13px;
+    color: #8696A0;
+    border: none;
+  }
+  .chat-send-fake {
+    width: 36px; height: 36px;
+    background: var(--teal-mid);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .chat-send-fake svg { fill: white; }
+
+  /* ── TRUST BAR ── */
+  .trust-bar {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: white;
+    padding: 20px 40px;
+  }
+  .trust-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .trust-icon {
+    width: 32px; height: 32px;
+    background: var(--teal-pale);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+
+  /* ── PROBLEM ── */
+  .section {
+    padding: 100px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--teal-mid);
+    margin-bottom: 16px;
+  }
+  .section h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 44px;
+    line-height: 1.15;
+    color: var(--dark);
+    margin-bottom: 20px;
+    letter-spacing: -0.3px;
+  }
+  .section-intro {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--mid);
+    max-width: 640px;
+    margin-bottom: 56px;
+  }
+  .cards-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 28px;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .card:hover { box-shadow: 0 8px 32px rgba(7,94,84,0.1); transform: translateY(-2px); }
+  .card-icon {
+    width: 48px; height: 48px;
+    background: var(--teal-pale);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  .card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 10px;
+  }
+  .card p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--mid);
+  }
+  .card-stat {
+    display: inline-block;
+    font-family: 'Instrument Serif', serif;
+    font-size: 36px;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-bg {
+    background: var(--teal);
+    padding: 100px 40px;
+  }
+  .how-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .how-bg .section-label { color: var(--teal-light); }
+  .how-bg h2 { color: white; margin-bottom: 56px; }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+    position: relative;
+  }
+  .step {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    padding: 28px 20px;
+    text-align: center;
+    transition: background 0.2s;
+  }
+  .step:hover { background: rgba(255,255,255,0.14); }
+  .step-num {
+    width: 36px; height: 36px;
+    background: var(--teal-light);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    margin: 0 auto 16px;
+  }
+  .step h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 8px;
+  }
+  .step p {
+    font-size: 12px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.65);
+  }
+
+  /* ── WHO WE SERVE ── */
+  .serve-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .serve-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .serve-card:hover { box-shadow: 0 8px 32px rgba(7,94,84,0.1); transform: translateY(-2px); }
+  .serve-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--teal), var(--teal-light));
+  }
+  .serve-emoji { font-size: 32px; margin-bottom: 16px; display: block; }
+  .serve-card h3 { font-size: 18px; font-weight: 600; color: var(--dark); margin-bottom: 12px; }
+  .serve-card p { font-size: 14px; line-height: 1.7; color: var(--mid); }
+
+  /* ── DIFFERENTIATORS ── */
+  .diff-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .diff-card {
+    background: var(--teal-wash);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 28px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    transition: box-shadow 0.2s;
+  }
+  .diff-card:hover { box-shadow: 0 4px 20px rgba(7,94,84,0.1); }
+  .diff-icon {
+    width: 44px; height: 44px;
+    background: var(--teal-pale);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .diff-card h4 { font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
+  .diff-card p { font-size: 14px; line-height: 1.7; color: var(--mid); }
+
+  /* ── CTA SECTION ── */
+  .cta-section {
+    background: white;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 100px 40px;
+  }
+  .cta-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .cta-inner h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 44px;
+    color: var(--dark);
+    margin-bottom: 20px;
+    line-height: 1.15;
+  }
+  .cta-inner p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--mid);
+    margin-bottom: 40px;
+  }
+  .cta-buttons {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Email form */
+  .email-section {
+    padding: 80px 40px;
+    max-width: 560px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .email-section h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px;
+    color: var(--dark);
+    margin-bottom: 10px;
+  }
+  .email-section p {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+  .email-form {
+    display: flex;
+    gap: 10px;
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 6px 6px 6px 18px;
+    box-shadow: 0 2px 12px rgba(7,94,84,0.08);
+  }
+  .email-form input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--dark);
+    background: transparent;
+  }
+  .email-form input::placeholder { color: var(--muted); }
+  .email-form button {
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 22px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .email-form button:hover { background: var(--teal-mid); }
+  .email-note { font-size: 12px; color: var(--muted); margin-top: 12px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark);
+    padding: 48px 40px;
+  }
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .footer-logo {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: white;
+  }
+  .footer-logo span { color: var(--teal-light); }
+  .footer-tagline { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+  .footer-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: white; }
+  .footer-right { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero > * { animation: fadeUp 0.7s ease both; }
+  .hero > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero > *:nth-child(2) { animation-delay: 0.25s; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 48px; padding: 120px 24px 80px; }
+    .hero-visual { order: -1; }
+    .cards-3, .steps, .serve-grid { grid-template-columns: 1fr; }
+    .diff-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .section { padding: 72px 24px; }
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .trust-inner { gap: 28px; }
+    .hero h1 { font-size: 42px; }
+    .section h2 { font-size: 34px; }
+  }
 </style>
 </head>
 <body>
-<div class="phone">
 
-  <!-- LANDING -->
-  <div class="screen" id="landingScreen">
-    <div class="landing-logo">🌸</div>
-    <div class="landing-title">Find your perfect experience together</div>
-    <div class="landing-sub">You each answer separately, privately. Melba combines your answers and unlocks the experience that's right for both of you.</div>
-    <button class="landing-btn" onclick="goToInstructions()">Get started</button>
-    <div class="landing-hint">Your partner will receive a magic link 🔗 — their answers stay private 🔒</div>
-  </div>
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">
+    intim<span class="dot">.ai</span>
+    <span class="badge">Beta</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#who">Who it's for</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="/intim-ai-coach.html" class="nav-cta">Try Mai →</a></li>
+  </ul>
+</nav>
 
-  <!-- INSTRUCTIONS -->
-  <div class="screen hidden slide-right" id="instructionsScreen">
-    <div class="inst-hero">
-      <div class="inst-hero-icon">🌸</div>
-      <div class="inst-hero-title">How Melba works</div>
-      <div class="inst-hero-sub">Everything you need to know before you begin</div>
-    </div>
-    <div class="inst-body">
-      <div class="inst-section">
-        <div class="inst-section-title">🔒 Your privacy</div>
-        <div class="inst-item"><div class="inst-icon">👤</div><div class="inst-text">Your answers are <strong>just for you</strong>. Your partner never sees your exact words — only the joint recommendation that comes from combining both your preferences.</div></div>
-        <div class="inst-item"><div class="inst-icon">🔐</div><div class="inst-text">Sessions expire after <strong>1 hour</strong>. Nothing is stored beyond that.</div></div>
-      </div>
-      <div class="inst-divider"></div>
-      <div class="inst-section">
-        <div class="inst-section-title">💌 How it works</div>
-        <div class="inst-item"><div class="inst-icon">1️⃣</div><div class="inst-text"><strong>You answer 5 short questions</strong> about your mood, what you're curious about, and how adventurous you're feeling tonight.</div></div>
-        <div class="inst-item"><div class="inst-icon">2️⃣</div><div class="inst-text"><strong>You get a magic link</strong> to share with your partner. They answer their own 5 questions privately.</div></div>
-        <div class="inst-item"><div class="inst-icon">3️⃣</div><div class="inst-text"><strong>Melba combines both sets of answers</strong> and recommends the experience that fits you both — unlocking automatically when your partner finishes.</div></div>
-      </div>
-      <div class="inst-divider"></div>
-      <div class="inst-coach-card">
-        <div class="inst-coach-title">✨ Meet your Intimacy Coach</div>
-        <div class="inst-coach-desc">After your recommendation, you'll have access to <strong>Melba's AI coach</strong> — a warm, knowledgeable guide trained on sexual wellbeing research. Ask anything: what to try next, how to bring something up with your partner, or just explore what you're curious about.</div>
-      </div>
-      <div class="inst-section">
-        <div class="inst-section-title">💡 Good to know</div>
-        <div class="inst-item"><div class="inst-icon">🌶️</div><div class="inst-text">Melba's content ranges from <strong>soft & intimate</strong> to <strong>turn it up</strong>. The quiz finds the right level for you both — you can always go further later.</div></div>
-        <div class="inst-item"><div class="inst-icon">🎧</div><div class="inst-text">Episodes are <strong>guided audio experiences</strong>. You press play together and a warm voice leads you through — real-time foreplay coaching.</div></div>
-        <div class="inst-item"><div class="inst-icon">💬</div><div class="inst-text">You can type freely or tap the <strong>suggested answers</strong> — whatever feels easier.</div></div>
-      </div>
-      <button class="inst-start-btn" id="instStartBtn" onclick="startAsPartnerA()">I'm going first — start a session</button>
-    </div>
-  </div>
-
-  <!-- COACH SCREEN -->
-  <div class="screen hidden" id="coachScreen">
-    <div class="coach-header">
-      <button class="coach-back-btn" onclick="closeCoach()">← Back</button>
-      <div class="coach-avatar">✨</div>
-      <div class="coach-header-info">
-        <div class="coach-header-name">Melba Coach</div>
-        <div class="coach-header-sub">Your intimacy guide · science-backed</div>
+<!-- HERO -->
+<section>
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">AI Intimacy Coaching</div>
+      <h1>A private guide to a <em>more fulfilling</em> intimate life</h1>
+      <p class="hero-sub">Intim.ai helps individuals and couples navigate erectile dysfunction, low libido, and mismatched desire — through natural, confidential conversation with Mai, your AI intimacy coach.</p>
+      <div class="hero-actions">
+        <a href="/intim-ai-coach.html" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+          Chat with Mai
+        </a>
+        <a href="#contact" class="btn-secondary">
+          Get early access
+        </a>
       </div>
     </div>
-    <div class="coach-chat" id="coachChat"><div class="coach-spacer"></div></div>
-    <div class="coach-prompts" id="coachPrompts"></div>
-    <div class="coach-input-area">
-      <input class="coach-text-input" id="coachInput" placeholder="Ask Melba anything…" oninput="onCoachType()" onkeydown="onCoachKey(event)" />
-      <button class="coach-send-btn" id="coachSendBtn" onclick="sendCoachMessage()">
-        <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M16 9L2 2l2.5 7L2 16l14-7z" fill="white"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- MAIN CHAT -->
-  <div class="chat-header">
-    <div class="avatar">🌸</div>
-    <div class="header-info">
-      <div class="header-name">Melba</div>
-      <div class="header-status"><div class="status-dot"></div><span id="headerStatus">Your intimacy guide</span></div>
-    </div>
-    <span class="role-badge" id="roleBadge"></span>
-    <div class="progress-wrap">
-      <div class="prog-step" id="p1"></div><div class="prog-step" id="p2"></div>
-      <div class="prog-step" id="p3"></div><div class="prog-step" id="p4"></div>
-      <div class="prog-step" id="p5"></div>
+    <div class="hero-visual">
+      <div class="chat-card">
+        <div class="chat-top">
+          <div class="chat-av">✨</div>
+          <div class="chat-top-info">
+            <div class="chat-top-name">Mai · Intim.ai</div>
+            <div class="chat-top-status">online · your intimacy guide</div>
+          </div>
+        </div>
+        <div class="chat-body">
+          <div class="chat-msg chat-in">
+            Hey 💫 I'm Mai, your personal intimacy guide. Whatever you're navigating — I'm here to help. What's on your mind?
+            <div class="chat-time">9:41</div>
+          </div>
+          <div class="chat-msg chat-out">
+            We've been together 8 years and things have felt disconnected lately
+            <div class="chat-time">9:42 ✓✓</div>
+          </div>
+          <div class="chat-msg chat-in">
+            That's really common after years together — and the fact that you're thinking about it matters. Can I ask, is it more that the physical side has quieted down, or that you're feeling emotionally distant too?
+            <div class="chat-time">9:42</div>
+          </div>
+          <div class="chat-msg chat-out">
+            Both, I think
+            <div class="chat-time">9:43 ✓✓</div>
+          </div>
+          <div class="chat-msg chat-in">
+            That makes sense — they often go hand in hand. Let's explore both. 🌿
+            <div class="chat-time">9:43</div>
+          </div>
+        </div>
+        <div class="chat-input-bar">
+          <div class="chat-input-fake">Message Mai…</div>
+          <div class="chat-send-fake">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="chat-area" id="chat"><div class="chat-spacer"></div></div>
-  <div class="chips-wrap" id="chipsWrap"><div class="chips-inner" id="chips"></div></div>
-  <div class="input-area">
-    <input class="text-input" id="textInput" placeholder="Type a message…" oninput="onType()" onkeydown="onKey(event)" />
-    <button class="send-btn" id="sendBtn" onclick="sendFree()">
-      <svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M16 9L2 2l2.5 7L2 16l14-7z" fill="white"/></svg>
-    </button>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="trust-item">
+      <div class="trust-icon">🔒</div>
+      End-to-end private
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">🧬</div>
+      Evidence-based coaching
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">💬</div>
+      No app download needed
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">👥</div>
+      Solo & couples support
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">⏱️</div>
+      Available 24 / 7
+    </div>
   </div>
 </div>
 
-<script>
-const EPISODES=[{"id":"c5f01108-c2b5-4e25-bd67-5872b5adbd52","name":"The one who receives","mood":"SENSUAL","topics":["BUTT_PLAY"],"who_is_guided":"HER","spice":"🌶️🌶️","practice_tags":["Anal Fingering","Handjob","Massage"],"image":"experienceimage_the_one_who_receives.webp","latest":false},{"id":"1f73aadf-2dce-4f35-88da-b0b77a6c1110","name":"Head Girl","mood":"INTENSE","topics":["ORAL_PLEASURE","POWER_AND_CONTROL","ROLE_PLAYING"],"who_is_guided":"HER","spice":"🌶️🌶️🌶️","practice_tags":["Ball Games","Explicit Language","Female Submissive"],"image":"experienceimage_head_girl.webp","latest":false},{"id":"73f1a08a-9bbc-4b9d-af2c-21513e60f5ca","name":"The Gentle Art of Receiving","mood":"CONNECTION","topics":[],"who_is_guided":"SOLO","spice":"🌶️","practice_tags":["Massage","Mindful Breathing","Tantra"],"image":"experienceimage_revenir_à_soi.webp","latest":false},{"id":"f6e7390b-783d-4405-99fc-7873dfa3b6e0","name":"The Bridge","mood":"SENSUAL","topics":["NEW_SEX_POSITIONS"],"who_is_guided":"HIM","spice":"🌶️🌶️","practice_tags":["Caresses","Fingering","Quickie"],"image":"experienceimage_the_bridge.webp","latest":false},{"id":"245a6127-feba-4aa8-a1c7-c3132ae0e6ef","name":"All Tied Up","mood":"INTENSE","topics":["BUTT_PLAY","POWER_AND_CONTROL"],"who_is_guided":"HIM","spice":"🌶️🌶️🌶️","practice_tags":["Anal Fingering","Bondage","Kissing"],"image":"experienceimage_celui_qui_se_faisait_bander_les_yeux.webp","latest":false},{"id":"0b651ff0-f079-40ca-bd30-33cc4b73d92d","name":"His happy ending","mood":"SENSUAL","topics":["EROTIC_MASSAGE"],"who_is_guided":"HER","spice":"🌶️","practice_tags":["Bedroom","Handjob","Massage"],"image":"experienceimage_his_happy_ending.webp","latest":false},{"id":"ddb494ae-dbd4-46aa-964c-9806d39b3e7f","name":"Jeans On","mood":"PLAYFUL","topics":[],"who_is_guided":"BOTH","spice":"🌶️🌶️","practice_tags":["Kissing","Living Room","Mutual Masturbation"],"image":"experienceimage_jeans_on.webp","latest":false},{"id":"fed2c045-e302-421b-be3a-e2f6dc02311b","name":"Loving Massage","mood":"CONNECTION","topics":["EROTIC_MASSAGE","MINDFUL_AND_CONNECTED"],"who_is_guided":"HIM","spice":"🌶️","practice_tags":["Massage","Mindful Breathing"],"image":"experienceimage_yoni_massage.webp","latest":false},{"id":"c247dba7-df46-4f00-ae84-2bec6c603c4c","name":"Lingam Massage","mood":"CONNECTION","topics":["EROTIC_MASSAGE","HANDS_AND_FINGERS","MINDFUL_AND_CONNECTED"],"who_is_guided":"HER","spice":"🌶️","practice_tags":["Ball Games","Handjob","Massage"],"image":"experienceimage_lingam_massage.webp","latest":false},{"id":"3c158393-dfb8-4d94-8571-f0b44c6bfea2","name":"The one who gives","mood":"SENSUAL","topics":["BUTT_PLAY"],"who_is_guided":"HIM","spice":"🌶️🌶️🌶️","practice_tags":["Anal Fingering","Butt Play","Fingering"],"image":"experienceimage_the_one_who_gives.webp","latest":false},{"id":"8b343ce2-278e-4b86-96f3-38ed22f548ca","name":"Good Sports","mood":"PLAYFUL","topics":["MINDFUL_AND_CONNECTED","NEW_SEX_POSITIONS","ROLE_PLAYING"],"who_is_guided":"BOTH","spice":"🌶️🌶️","practice_tags":["Fingering","Kissing","Living Room"],"image":"experienceimage_celle_qui_faisaient_du_sport.webp","latest":false},{"id":"cd55caa3-384e-45b1-9a4b-f6f591875bd8","name":"His Appreciative Audience","mood":"SENSUAL","topics":["WATCHING_AND_BEING_SEEN"],"who_is_guided":"SOLO","spice":"🌶️🌶️🌶️","practice_tags":["Edging","Exhibitionism","Female Dominant"],"image":"experienceimage_herappreciativeaudience.webp","latest":false},{"id":"97ce8512-967c-4e49-b307-27bebea185a5","name":"The Art of Caressing","mood":"CONNECTION","topics":["EROTIC_MASSAGE","MINDFUL_AND_CONNECTED","SENSORY_PLAY"],"who_is_guided":"BOTH","spice":"🌶️","practice_tags":["Massage","Mindful Touch"],"image":"experienceimage_the_art_of_caressing.webp","latest":false},{"id":"b4ff9c4b-5b5c-495e-a321-439a7fa6b351","name":"Head Boy","mood":"INTENSE","topics":["ORAL_PLEASURE","POWER_AND_CONTROL","ROLE_PLAYING"],"who_is_guided":"HIM","spice":"🌶️🌶️🌶️","practice_tags":["Explicit Language","Face Sitting","Fingering"],"image":"experienceimage_head_boy.webp","latest":false},{"id":"164bc3c7-96d7-47f0-ba73-7cf747567ea1","name":"His Multiple Sensations","mood":"SENSUAL","topics":["MINDFUL_AND_CONNECTED","SENSORY_PLAY"],"who_is_guided":"HER","spice":"🌶️","practice_tags":["Mindful Touch"],"image":"experienceimage_multiple_sensations.webp","latest":false},{"id":"f1c135ea-d9d8-4201-ba84-d8a69ab37190","name":"Eating Out","mood":"SENSUAL","topics":["ORAL_PLEASURE"],"who_is_guided":"HIM","spice":"🌶️🌶️","practice_tags":["Fingering","Kissing","Man Guided"],"image":"experienceimage_the_one_who_went_down_on_her.webp","latest":false},{"id":"5e36188f-f9d2-42f4-a2d4-204f722ccaa7","name":"Yoni Massage","mood":"CONNECTION","topics":["EROTIC_MASSAGE","HANDS_AND_FINGERS","MINDFUL_AND_CONNECTED"],"who_is_guided":"BOTH","spice":"🌶️","practice_tags":["Massage","Mindful Touch"],"image":"experienceimage_yoni_massage.webp","latest":false},{"id":"3c1da57a-c869-4653-83e4-8b1a97c8c4fa","name":"Taking Turns Oral","mood":"SENSUAL","topics":["MINDFUL_AND_CONNECTED","ORAL_PLEASURE"],"who_is_guided":"BOTH","spice":"🌶️","practice_tags":["Handjob","Kissing","Oral for her"],"image":"experienceimage_taking_turn_oral.webp","latest":false},{"id":"f205bde4-58ff-4268-a741-87e16c9b2b3b","name":"The Colleagues","mood":"PLAYFUL","topics":["EROTIC_MASSAGE","ORAL_PLEASURE","ROLE_PLAYING"],"who_is_guided":"BOTH","spice":"🌶️🌶️🌶️","practice_tags":["Blindfolds","Fingering","Grinding"],"image":"experienceimage_the_colleagues.webp","latest":false},{"id":"5391da53-efde-4816-aff1-573465e4acc9","name":"Peach Magic","mood":"INTENSE","topics":[],"who_is_guided":"BOTH","spice":"🌶️🌶️🌶️","practice_tags":["Anal Fingering","Massage","Mutual Masturbation"],"image":"experienceimage_peach_magic.webp","latest":false},{"id":"1d659a84-115f-4f61-a1e7-62b738d5582b","name":"Who stands behind?","mood":"PLAYFUL","topics":["MINDFUL_AND_CONNECTED","SENSORY_PLAY"],"who_is_guided":"BOTH","spice":"🌶️🌶️","practice_tags":["Blindfolds","Fingering","Lingerie"],"image":"experienceimage_under_the_table.webp","latest":false},{"id":"680fa0c5-9a80-4078-9b00-c9e9ba8ff39a","name":"Just the Tongue","mood":"PLAYFUL","topics":["ORAL_PLEASURE"],"who_is_guided":"BOTH","spice":"🌶️🌶️","practice_tags":["Kissing","Man Guided","Oral for her"],"image":"experienceimage_just_the_tongue.webp","latest":false},{"id":"a4eb4621-a89e-47ce-97b1-ed437dd65c87","name":"The One Where She Decides","mood":"SENSUAL","topics":["POWER_AND_CONTROL"],"who_is_guided":"HER","spice":"🌶️🌶️🌶️","practice_tags":["69","Caresses","Oral for her"],"image":"experienceimage_the_one_where_she_decides.webp","latest":false},{"id":"e9aa5b6b-4b9c-4c01-83a2-ee483299c346","name":"Tantric Kissing","mood":"CONNECTION","topics":[],"who_is_guided":"BOTH","spice":"🌶️","practice_tags":["Kissing","Mindful Breathing"],"image":"experienceimage_tantric_kissing.webp","latest":false},{"id":"33507ee9-080d-47b1-80fa-57949a43602d","name":"Blow Him Away","mood":"INTENSE","topics":["ORAL_PLEASURE"],"who_is_guided":"HER","spice":"🌶️🌶️","practice_tags":["Mutual Masturbation","Oral for him","Woman Guided"],"image":"experienceimage_the_one_that_blew_him_away.webp","latest":false},{"id":"aa6e7cdd-e722-4597-8131-2cbdccb2af14","name":"Squirting 101","mood":"INTENSE","topics":["HANDS_AND_FINGERS","TOYS_AND_TOOLS"],"who_is_guided":"HIM","spice":"🌶️🌶️🌶️","practice_tags":["Fingering","Oral for her","Toys"],"image":"experienceimage_squirting_101.webp","latest":false},{"id":"91f9b225-ec4f-4a6f-b08b-8e0c71b9dfbc","name":"Mistress Magician","mood":"INTENSE","topics":["POWER_AND_CONTROL","SENSORY_PLAY","TOYS_AND_TOOLS"],"who_is_guided":"HER","spice":"🌶️🌶️🌶️","practice_tags":["Bondage","Caresses","Female Dominant"],"image":"experienceimage_mistress_magician.webp","latest":false},{"id":"736a135a-10fb-46ef-bf7e-4155eddeefff","name":"The Explorers","mood":"SENSUAL","topics":["MINDFUL_AND_CONNECTED","ORAL_PLEASURE"],"who_is_guided":"BOTH","spice":"🌶️🌶️","practice_tags":["Fingering","Kissing","Mutual Masturbation"],"image":"experienceimage_the_explorer.webp","latest":false},{"id":"9cceb65a-a37e-4c71-872b-fd014d860f9b","name":"Beneath her Sheets","mood":"SENSUAL","topics":["MINDFUL_AND_CONNECTED"],"who_is_guided":"HIM","spice":"🌶️","practice_tags":["Man Guided","Massage","Mindful Touch"],"image":"experienceimage_beneath_her_sheets.webp","latest":false},{"id":"959136d2-b140-4f7a-bb86-26bdd61fc6b0","name":"Massage Magic","mood":"SENSUAL","topics":["EROTIC_MASSAGE","TOYS_AND_TOOLS"],"who_is_guided":"BOTH","spice":"🌶️🌶️","practice_tags":["Caresses","Massage","Toys"],"image":"experienceimage_massage_magic.webp","latest":false},{"id":"62b95e84-016e-4385-8198-06e2d02b0054","name":"She holds the leash","mood":"PLAYFUL","topics":["POWER_AND_CONTROL","ROLE_PLAYING","SENSORY_PLAY"],"who_is_guided":"HER","spice":"🌶️🌶️🌶️","practice_tags":["Bondage","Explicit Language","Female Dominant"],"image":"experienceimage_the_one_with_the_leash.webp","latest":false},{"id":"820f3dfe-931a-44b0-a97b-d15662380362","name":"Table Time","mood":"INTENSE","topics":["NEW_SEX_POSITIONS"],"who_is_guided":"HIM","spice":"🌶️🌶️","practice_tags":["Fingering","Kissing","Oral for her"],"image":"experienceimage_table_time.webp","latest":false},{"id":"7b592138-e390-4003-aead-6166b33c8d1b","name":"The Plumber","mood":"PLAYFUL","topics":[],"who_is_guided":"BOTH","spice":"🌶️🌶️","practice_tags":["Ball Games","Grinding","Kissing"],"image":"experienceimage_celui_qui_venait_reparer_une_fuite_deau.webp","latest":false},{"id":"3514db34-66d7-4deb-9f2b-43385767a8c0","name":"Sweet Anal","mood":"PLAYFUL","topics":["BUTT_PLAY","TOYS_AND_TOOLS"],"who_is_guided":"HIM","spice":"🌶️","practice_tags":["Anal Fingering","Analingus","Butt Play"],"image":"experienceimage_celui_qui_redecouvrait_anal.webp","latest":false},{"id":"d5965f87-470b-4ac0-9768-6986e77d2aef","name":"Mirror Blowjob","mood":"INTENSE","topics":["ORAL_PLEASURE","WATCHING_AND_BEING_SEEN"],"who_is_guided":"HER","spice":"🌶️🌶️🌶️","practice_tags":["Ball Games","Bedroom","Explicit Language"],"image":"experienceimage_mirror_blowjob.webp","latest":false},{"id":"529e11ae-cb95-4da0-b7f9-4f554eb02956","name":"In the Corner","mood":"INTENSE","topics":["NEW_SEX_POSITIONS"],"who_is_guided":"HIM","spice":"🌶️🌶️🌶️","practice_tags":["Fingering","Male Dominant","Man Guided"],"image":"experienceimage_inthecornernew.webp","latest":false},{"id":"29835255-74c6-4e27-9b1e-61115052d4e6","name":"The Mirror Speaks","mood":"PLAYFUL","topics":["WATCHING_AND_BEING_SEEN"],"who_is_guided":"BOTH","spice":"🌶️🌶️","practice_tags":["Bathroom","Exhibitionism","Fingering"],"image":"experienceimagme_themirrorspeaks.webp","latest":false},{"id":"871bb265-4940-4fd1-8dac-449f9898c207","name":"Solo Edging","mood":"SENSUAL","topics":["HANDS_AND_FINGERS"],"who_is_guided":"SOLO","spice":"🌶️","practice_tags":["Caresses","Edging","JOI (jerk off instructions)"],"image":"experienceimage_solo_edging.webp","latest":false},{"id":"722db947-29f3-47ef-a697-59267165c710","name":"Slow Burn","mood":"SENSUAL","topics":[],"who_is_guided":"BOTH","spice":"🌶️","practice_tags":["Background music"],"image":"lucie_broto_strong_circle_vibrations.webp","latest":false},{"id":"c1ba9977-cbb3-4a54-a0f0-0b64c1963394","name":"Tantric Breathwork","mood":"CONNECTION","topics":["MINDFUL_AND_CONNECTED"],"who_is_guided":"BOTH","spice":"🌶️","practice_tags":["Mindful Breathing","Mindful Touch","Tantra"],"image":"experienceimage_tantric_breathwork.webp","latest":false},{"id":"63cffdef-bab8-42fe-81b1-7ab719bab58d","name":"Her BJ Dream","mood":"INTENSE","topics":["HANDS_AND_FINGERS","ROLE_PLAYING"],"who_is_guided":"SOLO","spice":"🌶️🌶️🌶️","practice_tags":["Caresses","JOI (jerk off instructions)","Personified Voice"],"image":"experienceimage_her_bj_dream.webp","latest":false},{"id":"ae30cd87-5324-4b18-8a05-22c260e488b1","name":"Lip Reader","mood":"SENSUAL","topics":["POWER_AND_CONTROL"],"who_is_guided":"HIM","spice":"🌶️🌶️","practice_tags":["Bedroom","Blindfolds","Fingering"],"image":"experienceimage_The_one_who_could_read_lips.webp","latest":false},{"id":"217c19bb-1726-4c65-bb8e-16349f168915","name":"Mirror Show","mood":"INTENSE","topics":[],"who_is_guided":"BOTH","spice":"🌶️🌶️","practice_tags":["Bedroom","Caresses","Exhibitionism"],"image":"experienceimage_mirror_show.webp","latest":false},{"id":"ead8f9be-f3c3-46a7-8d88-cd4fcf748fb1","name":"The Art of Staying Present","mood":"CONNECTION","topics":["EROTIC_MASSAGE","HANDS_AND_FINGERS"],"who_is_guided":"BOTH","spice":"🌶️","practice_tags":["Massage","Mindful Breathing","Tantra"],"image":"experienceimage_the_art_of_being_present.webp","latest":false},{"id":"f0bd3538-10ca-4cbb-8d7b-b10c5496ed60","name":"The One That Vibes","mood":"CONNECTION","topics":[],"who_is_guided":"BOTH","spice":"🌶️🌶️","practice_tags":["Caresses","Massage","Toys"],"image":"experienceimage_the_one_that_vibe.webp","latest":false},{"id":"dbb300ac-82b2-4e4e-aaa3-ae05e9a30328","name":"Master Magician","mood":"INTENSE","topics":["POWER_AND_CONTROL","ROLE_PLAYING","SENSORY_PLAY","TOYS_AND_TOOLS"],"who_is_guided":"HIM","spice":"🌶️🌶️🌶️","practice_tags":["Bondage","Caresses","Female Submissive"],"image":"experienceimage_the_magician_male_dom.webp","latest":false},{"id":"e43deb4a-c274-4307-8369-ff00015b5cab","name":"Hands on","mood":"SENSUAL","topics":["HANDS_AND_FINGERS"],"who_is_guided":"HER","spice":"🌶️🌶️","practice_tags":["Bedroom","Handjob","Kissing"],"image":"experienceimage_celui_qui_souvrait_sensualite.webp","latest":false},{"id":"b36cf328-7c9a-4ff2-b5b6-50fc8639647d","name":"Close Your Eyes","mood":"SENSUAL","topics":[],"who_is_guided":"HER","spice":"🌶️🌶️","practice_tags":["Caresses","Exhibitionism","Man Guided"],"image":"experienceimage_close_your_eyes.webp","latest":false},{"id":"16ce884f-425e-48d1-a024-a3de5760825f","name":"She rides all the way","mood":"PLAYFUL","topics":["MINDFUL_AND_CONNECTED","NEW_SEX_POSITIONS","POWER_AND_CONTROL"],"who_is_guided":"HER","spice":"🌶️🌶️","practice_tags":["Bedroom","Edging","Grinding"],"image":"experienceimage_she_rides_all_the_way.webp","latest":false},{"id":"721b7b26-7ae2-4dad-95e6-55e391611062","name":"Beneath his Sheets","mood":"SENSUAL","topics":["MINDFUL_AND_CONNECTED"],"who_is_guided":"HER","spice":"🌶️","practice_tags":["Bedroom","Massage","Mindful Touch"],"image":"experienceimage_beneath_his_sheets.webp","latest":false},{"id":"7c499da4-adb2-460e-b2a4-ae62d80d89cd","name":"Two Spoons","mood":"PLAYFUL","topics":["NEW_SEX_POSITIONS"],"who_is_guided":"BOTH","spice":"🌶️🌶️","practice_tags":["Fingering","Grinding","Handjob"],"image":"experienceimage_twospoons.webp","latest":false},{"id":"e0ada668-0089-49be-b28d-0f6fe676960d","name":"Her Multiple Sensations","mood":"CONNECTION","topics":["SENSORY_PLAY","TOYS_AND_TOOLS"],"who_is_guided":"HIM","spice":"🌶️","practice_tags":["Massage","Mindful Touch"],"image":"experienceimage_multiple_sensations.webp","latest":false},{"id":"326aa54f-4412-4eb4-a009-922ac3a21600","name":"Slow 69","mood":"CONNECTION","topics":["MINDFUL_AND_CONNECTED","ORAL_PLEASURE"],"who_is_guided":"BOTH","spice":"🌶️🌶️","practice_tags":["69","Kissing","Massage"],"image":"experienceimage_slow_69.webp","latest":false},{"id":"1388eb5e-7fde-45bf-abc4-cb41cf0d5d22","name":"Blindfolded","mood":"SENSUAL","topics":["MINDFUL_AND_CONNECTED","SENSORY_PLAY","TOYS_AND_TOOLS"],"who_is_guided":"HER","spice":"🌶️","practice_tags":["Fingering","Kissing","Mindful Touch"],"image":"experienceimage_mystery_man.webp","latest":false},{"id":"dd9b4b0d-6366-4883-87e7-afeb297019c7","name":"Two girls and a guy","mood":"INTENSE","topics":[],"who_is_guided":"BOTH","spice":"🌶️🌶️🌶️","practice_tags":["Fingering","Handjob","Massage"],"image":"experienceimage_two_girls_and_a_guy.webp","latest":false},{"id":"a1720f42-3614-44db-b685-8369a50219a4","name":"His Little Feather","mood":"CONNECTION","topics":["SENSORY_PLAY"],"who_is_guided":"HER","spice":"🌶️","practice_tags":["Bedroom","Mindful Breathing","Mindful Touch"],"image":"experienceimage_feather_on_him.webp","latest":false},{"id":"c93b9fb0-8914-4bf9-aba5-ca534ccb3caa","name":"His Sensual Side","mood":"SENSUAL","topics":[],"who_is_guided":"BOTH","spice":"🌶️","practice_tags":["69","Bedroom","Handjob"],"image":"experienceimage_celui_qui_souvrait_sensualite.webp","latest":false},{"id":"56ddabff-21ce-4954-b5d9-dd9f53f04405","name":"Deepthroat 101","mood":"INTENSE","topics":["ORAL_PLEASURE"],"who_is_guided":"HER","spice":"🌶️🌶️🌶️","practice_tags":["Bedroom","Deep Throat","Explicit Language"],"image":"experienceimage_deepthroat_101.webp","latest":false},{"id":"a42cc115-3cef-43f0-bf16-2eb80ef10ea2","name":"For Your Fans","mood":"PLAYFUL","topics":["ROLE_PLAYING","WATCHING_AND_BEING_SEEN"],"who_is_guided":"SOLO","spice":"🌶️🌶️🌶️","practice_tags":["Bedroom","Caresses","Exhibitionism"],"image":"experienceimage_for_your_fans.webp","latest":false},{"id":"7b68cc17-b8f2-4490-88e8-92adc7978334","name":"Double Mirror Game","mood":"PLAYFUL","topics":["HANDS_AND_FINGERS","WATCHING_AND_BEING_SEEN"],"who_is_guided":"BOTH","spice":"🌶️🌶️🌶️","practice_tags":["Anal Fingering","Caresses","Exhibitionism"],"image":"experienceimage_double_mirror_play.webp","latest":false},{"id":"3a006a19-94b7-4cae-9066-beab499ba9ac","name":"The Art of Connection","mood":"CONNECTION","topics":[],"who_is_guided":"BOTH","spice":"🌶️","practice_tags":["Kissing","Massage","Mindful Breathing"],"image":"experienceimage_the_art_of_connexion.webp","latest":false},{"id":"1858edd5-0a7e-4cfd-a95a-9043706ea3a0","name":"We are Film Stars","mood":"PLAYFUL","topics":["ROLE_PLAYING","WATCHING_AND_BEING_SEEN"],"who_is_guided":"BOTH","spice":"🌶️🌶️🌶️","practice_tags":["Exhibitionism","Fingering","Handjob"],"image":"experienceimage_we_are_movie_stars.webp","latest":false},{"id":"c047e890-fcf3-450c-90f4-e462901ddc9d","name":"The Explorer","mood":"SENSUAL","topics":[],"who_is_guided":"HER","spice":"🌶️🌶️","practice_tags":["Massage","Mutual Masturbation","Oral for her"],"image":"experienceimage_the_explorer.webp","latest":false},{"id":"2e382b92-c2fa-4125-ad31-008624c34ffd","name":"Connected Warm Up","mood":"CONNECTION","topics":["MINDFUL_AND_CONNECTED"],"who_is_guided":"BOTH","spice":"🌶️","practice_tags":["Mindful Breathing","Mindful Touch"],"image":"experienceimage_connected_warm_up.webp","latest":false},{"id":"1b235bb7-d4a6-4cec-9717-c0ac5e1ee24e","name":"Reverse Rider","mood":"INTENSE","topics":["BUTT_PLAY"],"who_is_guided":"BOTH","spice":"🌶️🌶️🌶️","practice_tags":["Anal Fingering","Butt Play","Female Dominant"],"image":"experienceimage_the_reverse_ride.webp","latest":false},{"id":"21947e00-ad7d-4a7c-8676-1e6e792fec2f","name":"Equal time","mood":"PLAYFUL","topics":["ORAL_PLEASURE"],"who_is_guided":"BOTH","spice":"🌶️🌶️","practice_tags":["Fingering","Massage","Mutual Masturbation"],"image":"experienceimage_equaltime.webp","latest":false},{"id":"4ea5865e-e9af-4225-b88c-0730822662b9","name":"French Kissing","mood":"CONNECTION","topics":[],"who_is_guided":"BOTH","spice":"🌶️","practice_tags":["Kissing","Mindful Breathing"],"image":"experienceimage_french_kissing.webp","latest":false},{"id":"3c545863-8420-4a70-a017-96eb2a37eb36","name":"Uncharted territories","mood":"SENSUAL","topics":["EROTIC_MASSAGE","MINDFUL_AND_CONNECTED","SENSORY_PLAY"],"who_is_guided":"BOTH","spice":"🌶️","practice_tags":["Massage","Mindful Touch"],"image":"experienceimage_uncharted_territories.webp","latest":false},{"id":"f9c2c3ac-c143-47c9-a7c2-b43e446fe80f","name":"The Magic Position","mood":"INTENSE","topics":[],"who_is_guided":"BOTH","spice":"🌶️🌶️","practice_tags":["Fingering","Kissing","Nipple Play"],"image":"experienceimage_the_magic_position.webp","latest":false},{"id":"f56d6b8b-d1c5-44ee-acde-a509826e771b","name":"Mystery Man","mood":"INTENSE","topics":["ROLE_PLAYING"],"who_is_guided":"BOTH","spice":"🌶️🌶️🌶️","practice_tags":["69","Blindfolds","Fingering"],"image":"experienceimage_mystery_man.webp","latest":false},{"id":"8dea83d3-a656-4a80-83a4-28f1783b685a","name":"Her Beads","mood":"INTENSE","topics":["POWER_AND_CONTROL","SENSORY_PLAY","WATCHING_AND_BEING_SEEN"],"who_is_guided":"HER","spice":"🌶️🌶️🌶️","practice_tags":["Exhibitionism","Fingering","Grinding"],"image":"Her beads.webp","latest":false},{"id":"4fdf7d3b-fae6-4e8d-8b2d-7788bc0cde98","name":"Between the three of us","mood":"PLAYFUL","topics":[],"who_is_guided":"BOTH","spice":"🌶️🌶️🌶️","practice_tags":["Fingering","Handjob","Oral for her"],"image":"experienceimage_two_guys_and_a_girl.webp","latest":false},{"id":"60e063ef-f89a-41df-a6a6-df8d3a78b05b","name":"Edge Control","mood":"INTENSE","topics":[],"who_is_guided":"HER","spice":"🌶️🌶️","practice_tags":["Handjob","Male Submissive","Vaginal Penetration"],"image":"experienceimage_edge_control.webp","latest":false},{"id":"90ef0bce-ef3b-4a7c-aacd-70b89c34594f","name":"Tongue Tied","mood":"SENSUAL","topics":["ORAL_PLEASURE"],"who_is_guided":"BOTH","spice":"🌶️🌶️","practice_tags":["Fingering","Kissing","Mutual Masturbation"],"image":"experienceimage_just_the_tongue.webp","latest":false},{"id":"172cdce2-b9b5-413f-bb12-dca42a48233a","name":"Her happy ending","mood":"SENSUAL","topics":["EROTIC_MASSAGE","HANDS_AND_FINGERS","MINDFUL_AND_CONNECTED"],"who_is_guided":"HIM","spice":"🌶️","practice_tags":["Edging","Fingering","Massage"],"image":"experienceimage_her_happy_ending.webp","latest":false},{"id":"da1ecde1-fd5a-46c8-a44b-2debe56ae89f","name":"Against the Wall","mood":"INTENSE","topics":["HANDS_AND_FINGERS","NEW_SEX_POSITIONS"],"who_is_guided":"HIM","spice":"🌶️🌶️","practice_tags":["Explicit Language","Fingering","Male Dominant"],"image":"experienceimage_in_the_corner.webp","latest":false},{"id":"3b0a5f73-2212-4769-8c70-353486a457db","name":"Yoni Gazing","mood":"INTENSE","topics":["MINDFUL_AND_CONNECTED"],"who_is_guided":"SOLO","spice":"🌶️","practice_tags":["Mindful Touch","Solo"],"image":"experienceimage_yoni_gazing.webp","latest":false},{"id":"af1958dd-e313-4c4a-8eb1-3d05859a2d7e","name":"Mutual Masturbation","mood":"SENSUAL","topics":["WATCHING_AND_BEING_SEEN"],"who_is_guided":"BOTH","spice":"🌶️🌶️","practice_tags":["Caresses","Exhibitionism","Mutual Masturbation"],"image":"experienceimage_mutual_masturbation.webp","latest":false},{"id":"e46ccbbd-ddff-4d51-9046-0f1485df6f00","name":"Her Little Feather","mood":"PLAYFUL","topics":["SENSORY_PLAY","TOYS_AND_TOOLS"],"who_is_guided":"HIM","spice":"🌶️","practice_tags":["Mindful Touch","Woman Guided"],"image":"experienceimage_feather_on_her.webp","latest":false},{"id":"40fcbabe-0a5a-4a63-a9b1-ae68e8181805","name":"Table Play","mood":"INTENSE","topics":[],"who_is_guided":"HIM","spice":"🌶️🌶️🌶️","practice_tags":["Anal Fingering","Caresses","Female Submissive"],"image":"experienceimage_table_play.webp","latest":false}];
+<!-- THE PROBLEM -->
+<div style="background: white;">
+  <section class="section">
+    <div class="section-label">The Problem</div>
+    <h2>Sexual health is underserved.<br>Most people suffer in silence.</h2>
+    <p class="section-intro">Erectile dysfunction, low libido, and mismatched desire affect millions — yet stigma, shame, and lack of accessible support mean the vast majority never get help.</p>
+    <div class="cards-3">
+      <div class="card">
+        <div class="card-icon">💙</div>
+        <span class="card-stat">1 in 3</span>
+        <h3>Men with Erectile Dysfunction</h3>
+        <p>ED affects men of all ages, often driven by stress, confidence, and relationship dynamics. Most never seek support due to shame.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌿</div>
+        <span class="card-stat">40%</span>
+        <h3>Women with Low Libido</h3>
+        <p>Low desire affects women across all life stages — rooted in hormones, mental load, medication, and emotional wellbeing. Rarely discussed openly.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💞</div>
+        <span class="card-stat">#1</span>
+        <h3>Couples' Relationship Challenge</h3>
+        <p>Mismatched desire creates cycles of rejection and disconnection. Very few accessible, non-clinical resources exist to help couples navigate it together.</p>
+      </div>
+    </div>
+  </section>
+</div>
 
-(function(){const p=new URLSearchParams(window.location.search);if(p.get("session")&&p.get("role")==="B")window._magicSession=p.get("session");})();
+<!-- HOW IT WORKS -->
+<div class="how-bg" id="how">
+  <div class="how-inner">
+    <div class="section-label">How It Works</div>
+    <h2 style="font-family: 'Instrument Serif', serif; font-size: 44px; color: white; margin-bottom: 56px; letter-spacing: -0.3px;">Five steps to a more connected intimate life</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Sign Up</h4>
+        <p>Quick, private onboarding with Mai. Goals, context, and comfort level — on your terms.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Daily Check-In</h4>
+        <p>Log mood, energy, desire, and moments of connection or friction — naturally, through conversation.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Guided Coaching</h4>
+        <p>Mai asks the right questions and offers evidence-based techniques, reframes, and exercises.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>Pattern Insights</h4>
+        <p>Identify triggers, track progress, and surface what's actually driving the issue over time.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <h4>Couple Mode</h4>
+        <p>Both partners share context with Mai independently. She bridges the gap neither could articulate alone.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
-let coupleId=null,myRole=null,currentStep=0,userAnswers={},coachHistory=[],lastMatchData=null;
-let locked=false,coachLocked=false,typing=null,coachTyping=null,pollTimer=null;
-const answerKeys=["goal","mood","experience","leads","spice"];
-const chatEl=document.getElementById("chat"),chipsWrap=document.getElementById("chipsWrap"),chipsInner=document.getElementById("chips"),textInput=document.getElementById("textInput"),sendBtn=document.getElementById("sendBtn");
-const coachChatEl=document.getElementById("coachChat"),coachInput=document.getElementById("coachInput"),coachSendBtn=document.getElementById("coachSendBtn"),coachPromptsEl=document.getElementById("coachPrompts");
+<!-- WHO WE SERVE -->
+<div style="background: white;">
+  <section class="section" id="who">
+    <div class="section-label">Who We Serve</div>
+    <h2>Built for real people,<br>real relationships</h2>
+    <p class="section-intro">Whether you're navigating something alone or working through it as a couple, Mai meets you where you are — without judgment.</p>
+    <div class="serve-grid">
+      <div class="serve-card">
+        <span class="serve-emoji">💙</span>
+        <h3>Men with ED or Low Libido</h3>
+        <p>Understand the psychological and lifestyle factors at play. Build confidence through structured, private coaching in a space completely free from shame or judgment.</p>
+      </div>
+      <div class="serve-card">
+        <span class="serve-emoji">🌸</span>
+        <h3>Women with Low Desire</h3>
+        <p>Explore what low libido means for you — hormonal, relational, or emotional — and find a path forward that genuinely feels right, at your own pace.</p>
+      </div>
+      <div class="serve-card">
+        <span class="serve-emoji">💞</span>
+        <h3>Couples with Mismatched Desire</h3>
+        <p>Mai holds space for both partners independently, then helps you find a rhythm that works for both — without the circular conversations that go nowhere.</p>
+      </div>
+    </div>
+  </section>
+</div>
 
-const steps=[
-  {progress:1,messages:[{text:"Hey, I'm your Melba guide 🌸",gap:400},{text:"This conversation is just for you — your partner won't see your exact words, only what we choose to share together.",gap:1100},{text:"What brings you here today?",gap:900}],chips:["✨ New experiences","🔥 Spice things up","💜 Reconnect","🌶️ Explore fantasies"]},
-  {progress:2,ack:["Love that 💜","Great, thank you 🙏","Lovely 💜","Got it ✨"],messages:[{text:"How are you both feeling right now, honestly? Your energy tonight shapes everything.",gap:900}],chips:["🤍 Tender, want to reconnect","😄 Playful, light mood","🔥 Turned on, ready","✨ Curious, open to something new"]},
-  {progress:3,ack:["Got it 🙌","Perfect ✨","Noted 💫"],messages:[{text:"What kind of experience feels right tonight?",gap:800}],chips:["🕯️ Slow touch & massage","💋 Oral pleasure","🎭 Power, roleplay, sensation","🔄 New positions together"]},
-  {progress:4,ack:["Nice 🔥","Love it ✨","Ooh 😊"],messages:[{text:"Tonight — would you love to be guided, take the lead, or discover together?",gap:800}],chips:["🌸 Be guided","⚡ Take the lead","🫶 Discover together"]},
-  {progress:5,ack:["Perfect.","Lovely 🌸"],messages:[{text:"Last one, I promise 😊",gap:600},{text:"How adventurous are you feeling? You can always go further later.",gap:700}],chips:["🌶️ Soft & intimate","🌶️🌶️ A little spicy","🌶️🌶️🌶️ Turn it up"]}
-];
+<!-- WHAT MAKES US DIFFERENT -->
+<section class="section">
+  <div class="section-label">Why Intim.ai</div>
+  <h2>A new category of support</h2>
+  <p class="section-intro">Not a therapy app. Not an entertainment platform. A private, evidence-based AI coach available whenever you need it.</p>
+  <div class="diff-grid">
+    <div class="diff-card">
+      <div class="diff-icon">🔒</div>
+      <div>
+        <h4>Radical Privacy</h4>
+        <p>No public profile, no clinical records, no waiting rooms. The most sensitive conversations deserve the most protected space.</p>
+      </div>
+    </div>
+    <div class="diff-card">
+      <div class="diff-icon">👥</div>
+      <div>
+        <h4>Both Partners, One Guide</h4>
+        <p>Mai holds context from both partners and surfaces insights neither could articulate alone — like a skilled, always-available couples coach.</p>
+      </div>
+    </div>
+    <div class="diff-card">
+      <div class="diff-icon">🧬</div>
+      <div>
+        <h4>Science-Backed, Shame-Free</h4>
+        <p>Grounded in the Dual Control Model, attachment theory, and evidence-based sex therapy. Mai is informed by science, not moralising.</p>
+      </div>
+    </div>
+    <div class="diff-card">
+      <div class="diff-icon">⏱️</div>
+      <div>
+        <h4>Always On</h4>
+        <p>Not an appointment you book and forget. Mai is there daily — building the longitudinal picture that makes real, lasting change possible.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-const delay=ms=>new Promise(r=>setTimeout(r,ms));
-function scrollDown(el){el=el||chatEl;setTimeout(()=>{el.scrollTop=el.scrollHeight;},40);}
-function updateProgress(n){for(let i=1;i<=5;i++)document.getElementById("p"+i).classList.toggle("done",i<=n);}
-function goToInstructions(){document.getElementById("landingScreen").classList.add("hidden");document.getElementById("instructionsScreen").classList.remove("hidden");}
-function closeCoach(){document.getElementById("coachScreen").classList.add("hidden");}
-function openCoach(){document.getElementById("coachScreen").classList.remove("hidden");if(coachHistory.length===0)initCoach();}
+<!-- TRY CTA -->
+<div class="cta-section">
+  <div class="cta-inner">
+    <div class="section-label" style="text-align:center;">Try it now</div>
+    <h2>Talk to Mai today.<br>It takes two minutes.</h2>
+    <p>No signup required. No app to download. Just an honest conversation with an AI guide who's here to help — privately and without judgment.</p>
+    <div class="cta-buttons">
+      <a href="/intim-ai-coach.html" class="btn-primary" style="font-size: 16px; padding: 16px 32px;">
+        Start chatting with Mai →
+      </a>
+    </div>
+  </div>
+</div>
 
-function showTyping(){removeTyping();const row=document.createElement("div");row.className="typing-row";row.innerHTML=`<div class="mini-av">🌸</div><div class="typing-bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;chatEl.appendChild(row);requestAnimationFrame(()=>requestAnimationFrame(()=>row.classList.add("show")));typing=row;scrollDown();}
-function removeTyping(){if(typing){typing.remove();typing=null;}}
-function addMelba(text,showAv=true){const row=document.createElement("div");row.className="bubble-row melba-row";row.innerHTML=`<div class="mini-av ${showAv?"":"ghost"}">🌸</div><div class="bubble melba-bubble">${text}</div>`;chatEl.appendChild(row);requestAnimationFrame(()=>requestAnimationFrame(()=>row.classList.add("show")));scrollDown();}
-function addUser(text){const row=document.createElement("div");row.className="bubble-row user-row";row.innerHTML=`<div class="bubble user-bubble">${text}</div>`;chatEl.appendChild(row);requestAnimationFrame(()=>requestAnimationFrame(()=>row.classList.add("show")));scrollDown();}
-function showChips(list){chipsInner.innerHTML="";list.forEach(label=>{const c=document.createElement("button");c.className="chip";c.textContent=label;c.onclick=()=>{chipsInner.querySelectorAll(".chip").forEach(x=>x.classList.remove("selected"));c.classList.add("selected");textInput.value=label;sendBtn.classList.add("active");};chipsInner.appendChild(c);});chipsWrap.classList.add("open");}
-function hideChips(){chipsWrap.classList.remove("open");}
+<!-- EMAIL / CONTACT -->
+<div id="contact">
+  <div class="email-section">
+    <h3>Stay in the loop</h3>
+    <p>Intim.ai is in early access. Get updates on new features, the couples mode launch, and our full platform release.</p>
+    <form class="email-form" action="https://formsubmit.co/clareelizabethcarmody@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="Intim.ai — Early Access Sign Up">
+      <input type="hidden" name="_next" value="https://intimai.health">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="email" name="email" placeholder="your@email.com" required>
+      <button type="submit">Get early access</button>
+    </form>
+    <p class="email-note">🔒 No spam. Unsubscribe any time. Or reach us directly at <a href="mailto:clareelizabethcarmody@gmail.com" style="color: var(--teal-mid); text-decoration: none;">clareelizabethcarmody@gmail.com</a></p>
+  </div>
+</div>
 
-async function startAsPartnerA(){
-  const btn=document.getElementById("instStartBtn");
-  btn.textContent="Creating session…";btn.disabled=true;
-  try{const res=await fetch("/.netlify/functions/session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"create"})});const data=await res.json();coupleId=data.coupleId;myRole="A";}
-  catch(e){coupleId=Math.random().toString(36).substring(2,10).toUpperCase();myRole="A";}
-  document.getElementById("instructionsScreen").classList.add("hidden");
-  document.getElementById("roleBadge").textContent="Partner A";document.getElementById("roleBadge").classList.add("show");
-  runStep(0);
-}
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">intim<span>.ai</span></div>
+      <div class="footer-tagline">AI intimacy coaching · intimai.health</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="/intim-ai-coach.html">Try Mai</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#who">Who it's for</a></li>
+      <li><a href="mailto:clareelizabethcarmody@gmail.com">Contact</a></li>
+    </ul>
+    <div class="footer-right">© 2026 Intim.ai · Confidential Beta</div>
+  </div>
+</footer>
 
-// ── KEY FIX: saveAnswers now returns the full session, not just partnerReady ──
-async function saveAnswers(){
-  try{
-    const res=await fetch("/.netlify/functions/session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"save",coupleId,role:myRole,answers:userAnswers})});
-    const d=await res.json();
-    return d; // return full response: { saved, partnerReady, partnerA, partnerB }
-  }catch(e){return {partnerReady:false};}
-}
-
-async function pollForPartner(){
-  try{const res=await fetch("/.netlify/functions/session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"get",coupleId})});return await res.json();}
-  catch(e){return null;}
-}
-
-function getMagicLink(){return`${window.location.origin}${window.location.pathname}?session=${coupleId}&role=B`;}
-function addInviteCard(){const row=document.createElement("div");row.className="bubble-row melba-row";row.innerHTML=`<div class="mini-av">🌸</div><div class="invite-card"><div class="invite-heading">Send your partner a magic link 💌</div><div class="invite-sub">Tap below to copy their personal link. When they open it, they'll be taken straight into their own session.</div><button class="invite-copy-btn" id="magicLinkBtn" onclick="copyMagicLink()">Copy link to share</button></div>`;chatEl.appendChild(row);requestAnimationFrame(()=>requestAnimationFrame(()=>row.classList.add("show")));scrollDown();}
-function copyMagicLink(){navigator.clipboard.writeText(getMagicLink()).then(()=>{document.getElementById("magicLinkBtn").textContent="Link copied! ✓";setTimeout(()=>{const b=document.getElementById("magicLinkBtn");if(b)b.textContent="Copy link to share";},2500);});}
-let waitingRow=null;
-function addWaitingCard(){const row=document.createElement("div");row.className="bubble-row melba-row";row.innerHTML=`<div class="mini-av ghost">🌸</div><div class="waiting-card"><span class="waiting-pulse">⏳</span><div class="waiting-text">Waiting for your partner to finish their questions…</div></div>`;chatEl.appendChild(row);requestAnimationFrame(()=>requestAnimationFrame(()=>row.classList.add("show")));scrollDown();waitingRow=row;}
-function removeWaitingCard(){if(waitingRow){waitingRow.remove();waitingRow=null;}}
-function addCoachEntryCard(){const row=document.createElement("div");row.className="bubble-row melba-row";row.innerHTML=`<div class="mini-av">🌸</div><div class="coach-entry-card"><div class="coach-entry-title">✨ Talk to your Melba Coach</div><div class="coach-entry-desc">Want to go deeper? Ask about what to try next, how to bring something up, or anything else on your mind. Science-backed, warm, completely private.</div><button class="coach-entry-btn" onclick="openCoach()">Open Melba Coach →</button></div>`;chatEl.appendChild(row);requestAnimationFrame(()=>requestAnimationFrame(()=>row.classList.add("show")));scrollDown();}
-function addResultCard(match,isJoint){lastMatchData=match;const row=document.createElement("div");row.className="bubble-row melba-row";const tags=(match.practice_tags||[]).map(t=>`<span class="rc-chip">${t}</span>`).join("");row.innerHTML=`<div class="mini-av">🌸</div><div class="result-card"><div class="rc-hero">${isJoint?'<div class="rc-joint-badge">✨ Joint pick</div>':''}<div class="rc-tag">${isJoint?"Your experience together":"Your first experience"}</div><div class="rc-sparkle">✨</div></div><div class="rc-body"><div class="rc-title">${match.episode_name||"Your Perfect Experience"}</div><div class="rc-desc">${match.reason||"Tonight is the perfect moment to explore something beautiful together."}</div><div class="rc-chips">${match.spice?`<span class="rc-chip">${match.spice}</span>`:""}${tags}</div><button class="rc-btn">Start this experience →</button></div></div>`;chatEl.appendChild(row);requestAnimationFrame(()=>requestAnimationFrame(()=>row.classList.add("show")));scrollDown();}
-
-async function afterQuiz(){
-  locked=true;
-  // saveAnswers now returns the full session object
-  const saveResult = await saveAnswers();
-
-  if(myRole==="A"){
-    await delay(400);showTyping();await delay(700);removeTyping();
-    addMelba("Now let's get your partner in. Share the magic link below — when they finish their questions, your joint recommendation unlocks 🔓");
-    await delay(600);addInviteCard();
-    await delay(800);showTyping();await delay(700);removeTyping();
-    addMelba("I'll let you know as soon as they're ready 💫",true);
-    await delay(400);addWaitingCard();
-    pollTimer=setInterval(async()=>{
-      const session=await pollForPartner();
-      if(session&&session.partnerReady){
-        clearInterval(pollTimer);removeWaitingCard();
-        await delay(300);showTyping();await delay(800);removeTyping();
-        addMelba("Your partner just finished! 🎉 Finding your joint recommendation now…",true);
-        await delay(500);
-        if(session.match){
-          // Partner B already generated and saved the match — use it directly
-          showStoredMatch(session.match);
-        } else {
-          // Match not saved yet — poll briefly for it, then generate if needed
-          let stored=null;
-          for(let i=0;i<5;i++){await delay(1000);const s=await pollForPartner();if(s&&s.match){stored=s.match;break;}}
-          if(stored){showStoredMatch(stored);}else{fetchJointMatch(session.partnerA,session.partnerB);}
-        }
-      }
-    },4000);
-  } else {
-    // Partner B: use save response data if present; fall back to a GET if not
-    let aData=saveResult.partnerA, bData=saveResult.partnerB;
-    if(!aData || !bData){
-      // Save response missing partner data — verify with a fresh GET
-      const fresh=await pollForPartner();
-      if(fresh){aData=fresh.partnerA;bData=fresh.partnerB;}
-    }
-    if(aData && bData){
-      showTyping();await delay(800);removeTyping();
-      addMelba("Both of you are in! Finding your joint recommendation now… 🎉",true);
-      await delay(500);
-      fetchJointMatch(aData, bData);
-    } else {
-      // Partner A hasn't finished yet — poll
-      showTyping();await delay(800);removeTyping();
-      addMelba("You're done! Now waiting for your partner to finish… I'll find your joint recommendation the moment they do 💫",true);
-      await delay(400);addWaitingCard();
-      pollTimer=setInterval(async()=>{
-        const s=await pollForPartner();
-        if(s&&s.partnerReady){
-          clearInterval(pollTimer);removeWaitingCard();
-          showTyping();await delay(800);removeTyping();
-          addMelba("Both done! Here's your joint recommendation 🌸",true);
-          await delay(500);fetchJointMatch(s.partnerA,s.partnerB);
-        }
-      },4000);
-    }
-  }
-  locked=false;
-}
-
-async function fetchJointMatch(answersA,answersB){
-  showTyping();
-  try{
-    const res=await fetch("/.netlify/functions/match",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({answers:{partnerA:answersA,partnerB:answersB},episodes:EPISODES})});
-    const match=await res.json();
-    // Save the match result to Redis so Partner A retrieves the same result
-    if(coupleId){
-      fetch("/.netlify/functions/session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"saveMatch",coupleId,answers:match})}).catch(()=>{});
-    }
-    removeTyping();
-    addResultCard(match,true);
-    await delay(800);showTyping();await delay(700);removeTyping();
-    addMelba("This one was chosen for both of you — together. Enjoy tonight 🌸",true);
-    await delay(1000);addCoachEntryCard();
-  }catch(err){
-    removeTyping();
-    addMelba("Something went wrong finding your match. Please try again 🙏",true);
-  }
-}
-
-async function showStoredMatch(match){
-  removeTyping();
-  addResultCard(match,true);
-  await delay(800);showTyping();await delay(700);removeTyping();
-  addMelba("This one was chosen for both of you — together. Enjoy tonight 🌸",true);
-  await delay(1000);addCoachEntryCard();
-}
-
-async function runStep(index,isB){
-  locked=true;
-  if(index>=steps.length){afterQuiz();return;}
-  const step=steps[index];updateProgress(step.progress);hideChips();
-  let msgs=step.messages;
-  if(index===0&&isB)msgs=[{text:"Hey, I'm your Melba guide 🌸",gap:400},{text:"Your partner has already answered — now it's your turn. Your answers are private; they won't see your exact words.",gap:1100},{text:"What brings you here today?",gap:900}];
-  for(let i=0;i<msgs.length;i++){await delay(msgs[i].gap||600);showTyping();await delay(750);removeTyping();addMelba(msgs[i].text,i===msgs.length-1);await delay(80);}
-  await delay(350);if(step.chips)showChips(step.chips);
-  locked=false;
-}
-
-async function handleAnswer(text){
-  if(locked)return;locked=true;
-  hideChips();textInput.value="";sendBtn.classList.remove("active");
-  addUser(text);
-  if(currentStep<answerKeys.length)userAnswers[answerKeys[currentStep]]=text;
-  await delay(300);
-  const next=steps[currentStep+1];
-  if(next&&next.ack&&next.ack.length){const ack=next.ack[Math.floor(Math.random()*next.ack.length)];showTyping();await delay(600);removeTyping();addMelba(ack,false);await delay(200);}
-  currentStep++;locked=false;runStep(currentStep,myRole==="B");
-}
-
-function onType(){sendBtn.classList.toggle("active",textInput.value.trim().length>0);if(textInput.value.trim())chipsInner.querySelectorAll(".chip").forEach(c=>c.classList.remove("selected"));}
-function onKey(e){if(e.key==="Enter"&&textInput.value.trim())sendFree();}
-function sendFree(){const v=textInput.value.trim();if(!v||locked)return;handleAnswer(v);}
-
-// ── COACH ────────────────────────────────────────────────────────────────────
-const COACH_PROMPTS=["What should we try next?","How do we talk about what we want?","We want to try something new but don't know where to start","Is it normal to want this?","How do we keep things exciting?"];
-function showCoachTyping(){removeCoachTyping();const row=document.createElement("div");row.className="coach-typing-row";row.innerHTML=`<div class="coach-mini-av">✨</div><div class="coach-typing-bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;coachChatEl.appendChild(row);requestAnimationFrame(()=>requestAnimationFrame(()=>row.classList.add("show")));coachTyping=row;scrollDown(coachChatEl);}
-function removeCoachTyping(){if(coachTyping){coachTyping.remove();coachTyping=null;}}
-function addCoachMelba(text){const row=document.createElement("div");row.className="coach-bubble-row";row.innerHTML=`<div class="coach-mini-av">✨</div><div class="coach-bubble coach-melba-bubble">${text}</div>`;coachChatEl.appendChild(row);requestAnimationFrame(()=>requestAnimationFrame(()=>row.classList.add("show")));scrollDown(coachChatEl);}
-function addCoachUser(text){const row=document.createElement("div");row.className="coach-bubble-row user-row";row.innerHTML=`<div class="coach-bubble coach-user-bubble">${text}</div>`;coachChatEl.appendChild(row);requestAnimationFrame(()=>requestAnimationFrame(()=>row.classList.add("show")));scrollDown(coachChatEl);}
-function showCoachPrompts(){coachPromptsEl.innerHTML="";COACH_PROMPTS.slice(0,3).forEach(p=>{const c=document.createElement("button");c.className="coach-prompt-chip";c.textContent=p;c.onclick=()=>{coachInput.value=p;coachSendBtn.classList.add("active");coachInput.focus();};coachPromptsEl.appendChild(c);});}
-async function initCoach(){showCoachTyping();await delay(1000);removeCoachTyping();const opening="Hey 🌸 — you two just got your recommendation. I'm here if you want to go a bit deeper: ask about what to try next, how to bring something up, or anything else on your mind.";addCoachMelba(opening);coachHistory.push({role:"assistant",content:opening});showCoachPrompts();}
-async function sendCoachMessage(){
-  const text=coachInput.value.trim();if(!text||coachLocked)return;
-  coachLocked=true;coachPromptsEl.innerHTML="";coachInput.value="";coachSendBtn.classList.remove("active");
-  addCoachUser(text);coachHistory.push({role:"user",content:text});showCoachTyping();
-  try{
-    const userContext={isDual:!!(userAnswers&&lastMatchData),partnerAAnswers:myRole==="A"?userAnswers:null};
-    const res=await fetch("/.netlify/functions/coach",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:coachHistory,userContext})});
-    const data=await res.json();removeCoachTyping();
-    addCoachMelba(data.reply||"I'm here — keep going.");
-    coachHistory.push({role:"assistant",content:data.reply});
-  }catch(err){removeCoachTyping();addCoachMelba("Something went wrong — try again? I'm still here.");}
-  coachLocked=false;
-}
-function onCoachType(){coachSendBtn.classList.toggle("active",coachInput.value.trim().length>0);}
-function onCoachKey(e){if(e.key==="Enter"&&coachInput.value.trim())sendCoachMessage();}
-
-// ── MAGIC LINK AUTO-START ─────────────────────────────────────────────────────
-window.addEventListener("DOMContentLoaded",()=>{
-  if(window._magicSession){
-    coupleId=window._magicSession;myRole="B";
-    document.getElementById("landingScreen").classList.add("hidden");
-    document.getElementById("roleBadge").textContent="Partner B";document.getElementById("roleBadge").classList.add("show");
-    document.getElementById("headerStatus").textContent="Linked to your session";
-    fetch("/.netlify/functions/session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"get",coupleId})})
-      .then(r=>r.json())
-      .then(data=>{
-        if(data.partnerB){
-          const ls=document.getElementById("landingScreen");ls.classList.remove("hidden");
-          ls.innerHTML=`<div style="font-size:48px;margin-bottom:20px">🌸</div><div style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:800;color:#1A1040;text-align:center;margin-bottom:12px">This session is already complete</div><div style="font-size:14px;color:#6B6B8A;text-align:center;line-height:1.6;padding:0 32px">It looks like both partners have already answered. Ask your partner to start a new one!</div>`;
-        }else{runStep(0,true);}
-      })
-      .catch(()=>runStep(0,true));
-  }
-});
-</script>
 </body>
 </html>
