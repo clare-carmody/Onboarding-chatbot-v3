@@ -283,10 +283,12 @@ function addIn(text) {
   requestAnimationFrame(() => requestAnimationFrame(() => row.classList.add("show")));
   scrollDown();
 }
-function addOut(text) {
+function addOut(text, pending) {
   const row = document.createElement("div");
   row.className = "bubble-row out-row";
-  row.innerHTML = '<div class="bubble out-bubble">' + text + '<div class="bubble-meta"><span class="bubble-time">' + now() + '</span><span class="tick-icon">&#x2713;&#x2713;</span></div></div>';
+  const tick = pending ? '<span class="tick-icon" style="opacity:0.4">&#x2713;</span>' : '<span class="tick-icon">&#x2713;&#x2713;</span>';
+  const opacity = pending ? ' style="opacity:0.7"' : '';
+  row.innerHTML = '<div class="bubble out-bubble"' + opacity + '>' + text + '<div class="bubble-meta"><span class="bubble-time">' + now() + '</span>' + tick + '</div></div>';
   chatEl.appendChild(row);
   requestAnimationFrame(() => requestAnimationFrame(() => row.classList.add("show")));
   scrollDown();
@@ -326,14 +328,25 @@ async function init() {
   addIn("Hey \uD83D\uDCAB I'm Mai, your personal intimacy guide. What's on your mind today?");
   showChips(OPENING_PROMPTS);
 }
+let queued = null;
+
 async function sendMessage() {
   const text = input.value.trim();
-  if (!text || locked) return;
+  if (!text) return;
+  // If Mai is thinking, queue the message instead of blocking
+  if (locked) {
+    queued = text;
+    input.value = "";
+    sendBtn.classList.remove("active");
+    // Show queued message greyed out so user knows it's received
+    addOut(text, true);
+    return;
+  }
   locked = true;
   hideChips();
   input.value = "";
   sendBtn.classList.remove("active");
-  addOut(text);
+  addOut(text, false);
   history.push({ role: "user", content: text });
   await delay(300);
   showTyping();
@@ -365,6 +378,14 @@ async function sendMessage() {
     addIn("Something went wrong, please try again \uD83D\uDE4F");
   }
   locked = false;
+  // If something was queued while Mai was thinking, send it now
+  if (queued) {
+    const next = queued;
+    queued = null;
+    input.value = next;
+    await delay(200);
+    sendMessage();
+  }
 }
 function onType() { sendBtn.classList.toggle("active", input.value.trim().length > 0); }
 function onKey(e) { if (e.key === "Enter" && input.value.trim()) sendMessage(); }
